@@ -63,6 +63,10 @@ public class User extends BaseTimeEntity {
     @Column(length = 256)
     private String blogLink;
 
+    private String imgPath;
+
+    private String imgUrl;
+
     @Column(length = 128)
     private String statusMessage;
 
@@ -135,6 +139,11 @@ public class User extends BaseTimeEntity {
     }
     public void updateStatusMessage(String statusMassage) {
         this.statusMessage = statusMassage;
+    }
+
+    public void updateUserProfileImage(String imgPath, String imgUrl) {
+        this.imgPath = imgPath;
+        this.imgUrl = imgUrl;
     }
 
     // auth

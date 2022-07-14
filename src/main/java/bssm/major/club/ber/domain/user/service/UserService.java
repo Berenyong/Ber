@@ -7,11 +7,15 @@ import bssm.major.club.ber.domain.user.web.dto.user.*;
 import bssm.major.club.ber.global.config.security.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
+import bssm.major.club.ber.global.file.FileResponseDto;
+import bssm.major.club.ber.global.file.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -25,6 +29,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final UserCategoryService userCategoryService;
+    private final S3Uploader s3Uploader;
     private String email;
 
     @Transactional
@@ -124,5 +129,14 @@ public class UserService {
     @Transactional
     public void authorization(Long id) {
         userRepository.updateRole(id);
+    }
+
+    @Transactional
+    public void updateImg(MultipartFile multipartFile) throws IOException {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+
+        FileResponseDto fileResponseDto = s3Uploader.saveFile(multipartFile);
+        user.updateUserProfileImage(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
     }
 }

@@ -6,8 +6,10 @@ import bssm.major.club.ber.global.generic.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,44 +20,42 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/join")
-    @ResponseStatus(HttpStatus.OK)
     public UserResponseDto signup(@RequestBody @Valid UserJoinRequestDto request) throws Exception {
         return userService.signup(request);
     }
 
     @GetMapping("/find/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public UserResponseDto User(@PathVariable Long id) {
         return userService.findUser(id);
     }
 
     @GetMapping("/find/nickname")
-    @ResponseStatus(HttpStatus.OK)
     public Result<List<UserResponseDto>> findAll(@RequestBody @Valid UserFindByNicknameRequestDto request) {
         List<UserResponseDto> users = userService.findByNickname(request.getNickname());
         return new Result<>(users.size(), users);
     }
 
    @PutMapping("/update")
-   @ResponseStatus(HttpStatus.OK)
    public UserResponseDto update(@RequestBody UserUpdateRequestDto request) {
         return userService.updateUser(request);
    }
 
     @PutMapping("/update/password")
-    @ResponseStatus(HttpStatus.OK)
     public String updatePassword(@RequestBody @Valid UserPasswordRequestDto request) {
         return userService.updatePassword(request);
     }
 
     @PutMapping("/update/role/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void updateRole(@PathVariable Long id) {
         userService.authorization(id);
     }
 
+    @PutMapping("/update/img")
+    public void updateUserProfileImage(@RequestParam MultipartFile multipartFile) throws IOException {
+        userService.updateImg(multipartFile);
+    }
+
    @DeleteMapping("/delete")
-   @ResponseStatus(HttpStatus.OK)
    public String delete(@RequestBody UserDeleteRequestDto request) throws Exception {
         return userService.deleteUser(request);
    }
