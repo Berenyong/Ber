@@ -7,6 +7,7 @@ import bssm.major.club.ber.domain.school.time_table.web.api.dto.TimeTableRespons
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -17,7 +18,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +40,16 @@ public class TimetableService {
 
     private final String basicUrl = basic + key + type + cityCode + schoolCode;
 
-    @Scheduled(cron = "0 4 * * *") // 매일 새벽 4시 실행
-    public void getTimetable() throws IOException {
+    public List<TimeTableResponseDto> getTimetable(int grade, int classNo) {
+        return timeTableRepository.getTimeTable(grade, classNo)
+                .stream()
+                .map(TimeTableResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
+//    @Scheduled(cron = "0 4 * * * *") // 매일 새벽 4시 실행
+    public void updateTimetable() throws IOException {
         timeTableRepository.deleteAll();
 
         int year = LocalDate.now().getYear();
@@ -84,7 +95,7 @@ public class TimetableService {
                     String s;
 
                     ArrayList<String> list = new ArrayList<>();
-                    while((s = br.readLine()) != null) {
+                    while ((s = br.readLine()) != null) {
                         sb.append(s);
                     }
 
@@ -112,8 +123,8 @@ public class TimetableService {
                                 .grade((long) grade)
                                 .idx((long) cnt)
                                 .build();
-
                         timeTableRepository.save(timeTable);
+                        cnt++;
                     }
                 }
             }
