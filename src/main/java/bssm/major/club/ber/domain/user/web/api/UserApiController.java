@@ -1,9 +1,7 @@
 package bssm.major.club.ber.domain.user.web.api;
 
-import bssm.major.club.ber.domain.user.service.EmailService;
 import bssm.major.club.ber.domain.user.service.UserService;
 import bssm.major.club.ber.domain.user.web.dto.user.*;
-import bssm.major.club.ber.domain.user.web.dto.email.EmailDto;
 import bssm.major.club.ber.global.generic.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,9 +31,9 @@ public class UserApiController {
 
     @GetMapping("/find/nickname")
     @ResponseStatus(HttpStatus.OK)
-    public Result findAll(@RequestBody @Valid UserFindByNicknameRequestDto request) {
+    public Result<List<UserResponseDto>> findAll(@RequestBody @Valid UserFindByNicknameRequestDto request) {
         List<UserResponseDto> users = userService.findByNickname(request.getNickname());
-        return new Result(users.size(), users);
+        return new Result<>(users.size(), users);
     }
 
    @PutMapping("/update")

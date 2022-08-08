@@ -6,7 +6,6 @@ import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostReComm
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostCommentResponseDto;
 import bssm.major.club.ber.global.generic.Result;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,13 +19,11 @@ public class ManagerPostCommentApiController {
     private final ManagerPostCommentService managerPostCommentService;
 
     @PostMapping("/create/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public Long create(@PathVariable Long id, @RequestBody @Valid ManagerPostCommentRequestDto request) {
         return managerPostCommentService.createComment(id, request);
     }
 
     @PostMapping("/create/{postId}/{commentId}")
-    @ResponseStatus(HttpStatus.OK)
     public Long saveRe(@PathVariable("postId") Long postId,
                        @PathVariable("commentId") Long commentId,
                        @RequestBody ManagerPostReCommentCreateRequestDto request) {
@@ -34,20 +31,17 @@ public class ManagerPostCommentApiController {
     }
 
     @GetMapping("/all/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Result all(@PathVariable Long id) {
+    public Result<List<ManagerPostCommentResponseDto>> all(@PathVariable Long id) {
         List<ManagerPostCommentResponseDto> managerPostCommentResponse = managerPostCommentService.findAllDesc(id);
-        return new Result(managerPostCommentResponse.size(), managerPostCommentResponse);
+        return new Result<>(managerPostCommentResponse.size(), managerPostCommentResponse);
     }
 
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public Long delete(@PathVariable Long id) {
         return managerPostCommentService.delete(id);
     }
 
     @DeleteMapping("/delete/re/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public Long deleteRe(@PathVariable Long id) {
         return managerPostCommentService.deleteRe(id);
     }
