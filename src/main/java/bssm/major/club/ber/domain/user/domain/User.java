@@ -46,6 +46,24 @@ public class User extends BaseTimeEntity{
         this.blogLink = blogLink;
     }
 
+    // Update User
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updatePassword(PasswordEncoder passwordEncoder, String password) {
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public void updateGitLink(String gitLink) {
+        this.gitLink = gitLink;
+    }
+
+    public void updateBlogLink(String blogLink) {
+        this.blogLink = blogLink;
+    }
+
+    // auth
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
     }

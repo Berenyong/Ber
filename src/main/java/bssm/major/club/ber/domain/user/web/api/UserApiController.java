@@ -2,8 +2,8 @@ package bssm.major.club.ber.domain.user.web.api;
 
 import bssm.major.club.ber.domain.user.service.EmailService;
 import bssm.major.club.ber.domain.user.service.UserService;
-import bssm.major.club.ber.domain.user.web.dto.UserJoinRequestDto;
-import bssm.major.club.ber.domain.user.web.dto.UserResponseDto;
+import bssm.major.club.ber.domain.user.web.dto.user.UserJoinRequestDto;
+import bssm.major.club.ber.domain.user.web.dto.user.UserResponseDto;
 import bssm.major.club.ber.domain.user.web.dto.email.EmailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +30,12 @@ public class UserApiController {
     @ResponseStatus(HttpStatus.OK)
     public UserResponseDto signup(@RequestBody @Valid UserJoinRequestDto request) throws Exception {
         return userService.signup(request);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponseDto User(@PathVariable Long id) {
+        return userService.findUser(id);
     }
 
 }
