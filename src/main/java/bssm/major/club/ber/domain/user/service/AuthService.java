@@ -5,6 +5,7 @@ import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.domain.user.web.dto.auth.LoginRequestDto;
 import bssm.major.club.ber.domain.user.web.dto.auth.TokenResponseDto;
 import bssm.major.club.ber.global.config.redis.RedisService;
+import bssm.major.club.ber.global.config.security.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import bssm.major.club.ber.global.jwt.JwtTokenProvider;
@@ -39,5 +40,12 @@ public class AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public void logout(String accessToken) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+
+        jwtTokenProvider.logout(user.getEmail(), accessToken);
     }
 }
