@@ -2,10 +2,7 @@ package bssm.major.club.ber.domain.user.service;
 
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
-import bssm.major.club.ber.domain.user.web.dto.user.UserDeleteRequestDto;
-import bssm.major.club.ber.domain.user.web.dto.user.UserUpdateRequestDto;
-import bssm.major.club.ber.domain.user.web.dto.user.UserJoinRequestDto;
-import bssm.major.club.ber.domain.user.web.dto.user.UserResponseDto;
+import bssm.major.club.ber.domain.user.web.dto.user.*;
 import bssm.major.club.ber.global.config.security.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -25,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private String email;
 
     @Transactional
     public UserResponseDto signup(UserJoinRequestDto request) throws Exception {
@@ -75,6 +74,22 @@ public class UserService {
     }
 
     @Transactional
+    public String updatePassword(UserPasswordRequestDto request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        if (!Objects.equals(request.getPassword(), request.getCheckPassword())) {
+            throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
+        }
+
+        user.updatePassword(passwordEncoder, request.getPassword());
+
+        this.email = null;
+
+        return "비밀번호가 정상적으로 변경되었습니다.";
+    }
+
+    @Transactional
     public String deleteUser(UserDeleteRequestDto request) throws Exception{
         if (SecurityUtil.getLoginUserEmail() == null) {
             throw new CustomException(ErrorCode.USER_NOT_LOGIN);
@@ -88,5 +103,9 @@ public class UserService {
         userRepository.deleteByEmail(myAccount);
         
         return myAccount;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
