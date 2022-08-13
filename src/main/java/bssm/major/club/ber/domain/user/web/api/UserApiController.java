@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @RestController
@@ -19,14 +21,14 @@ public class UserApiController {
 
     @PostMapping("/email")
     @ResponseStatus(HttpStatus.OK)
-    public String emailConfirm(@RequestBody EmailDto request) throws Exception{
+    public String emailConfirm(@RequestBody @Valid EmailDto request) throws Exception{
         emailService.sendSimpleMessage(request.getEmail());
         return "코드 발송 완료!\n" + request.getEmail() + "에서 메일을 확인해주세요.";
     }
 
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.OK)
-    public UserResponseDto signup(@RequestBody UserJoinRequestDto request) throws Exception {
+    public UserResponseDto signup(@RequestBody @Valid UserJoinRequestDto request) throws Exception {
         return userService.signup(request);
     }
 
