@@ -2,8 +2,8 @@ package bssm.major.club.ber.domain.user.service;
 
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
-import bssm.major.club.ber.domain.user.web.dto.UserDeleteRequestDto;
-import bssm.major.club.ber.domain.user.web.dto.UserUpdateRequestDto;
+import bssm.major.club.ber.domain.user.web.dto.user.UserDeleteRequestDto;
+import bssm.major.club.ber.domain.user.web.dto.user.UserUpdateRequestDto;
 import bssm.major.club.ber.domain.user.web.dto.user.UserJoinRequestDto;
 import bssm.major.club.ber.domain.user.web.dto.user.UserResponseDto;
 import bssm.major.club.ber.global.config.security.SecurityUtil;
