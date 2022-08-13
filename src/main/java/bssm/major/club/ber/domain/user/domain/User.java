@@ -1,6 +1,8 @@
 package bssm.major.club.ber.domain.user.domain;
 
 import bssm.major.club.ber.domain.user.domain.type.Role;
+import bssm.major.club.ber.global.exception.CustomException;
+import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,8 +50,10 @@ public class User extends BaseTimeEntity{
         this.password = passwordEncoder.encode(password);
     }
 
-    public boolean checkPassword(PasswordEncoder passwordEncoder, String password) {
-        return passwordEncoder.matches(password, getPassword());
+    public void matchedPassword(PasswordEncoder passwordEncoder, User user, String password) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
+        }
     }
 
     public void addUserAuthority() {
