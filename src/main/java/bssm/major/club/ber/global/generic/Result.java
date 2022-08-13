@@ -1,11 +1,13 @@
 package bssm.major.club.ber.global.generic;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Result<T> {
     private int count;
     private T data;
+
 }

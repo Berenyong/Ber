@@ -1,4 +1,4 @@
-package bssm.major.club.ber.domain.user.web.dto;
+package bssm.major.club.ber.domain.user.web.dto.user;
 
 import lombok.Builder;
 import lombok.Getter;
