@@ -1,6 +1,10 @@
 package bssm.major.club.ber.global.config.security;
 
 import bssm.major.club.ber.global.auth.CustomUserDetailService;
+import bssm.major.club.ber.global.jwt.JwtTokenProvider;
+import bssm.major.club.ber.global.jwt.JwtValidateService;
+import bssm.major.club.ber.global.jwt.filter.JwtAuthenticationFilter;
+import bssm.major.club.ber.global.jwt.filter.JwtExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,12 +14,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailService customUserDetailService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtValidateService jwtValidateService;
 
     @Bean
     @Override
@@ -37,7 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailService, jwtValidateService),
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
 
     }
 }
