@@ -17,9 +17,8 @@ public class UserJoinRequestDto {
     @Email(message = "이메일 형식에 맞지 않습니다.")
     private String email;
 
-    // TODO
-//    @NotBlank(message = "이메일 인증 코드는 필수 입력 값입니다.")
-//    private String checkEmailCode;
+    @NotBlank(message = "이메일 인증 코드는 필수 입력 값입니다.")
+    private String checkEmailCode;
 
     @NotBlank(message = "닉네임은 필수 입력 값입니다.")
     private String nickname;

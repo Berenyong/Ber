@@ -16,6 +16,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Transactional
     public UserResponseDto signup(UserJoinRequestDto request) {
@@ -27,7 +28,9 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        // TODO 이메일 확인 코드
+        if (emailService.verifyCode(request.getCheckEmailCode())) {
+            throw new IllegalArgumentException("이메일 코드가 일치하지 않습니다.");
+        }
 
         User user = userRepository.save(request.toEntity());
         user.encodePassword(passwordEncoder);
