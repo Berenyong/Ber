@@ -2,6 +2,7 @@ package bssm.major.club.ber.domain.user.domain;
 
 import bssm.major.club.ber.domain.user.domain.type.Role;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +31,18 @@ public class User extends BaseTimeEntity{
     private String gitLink;
 
     private String blogLink;
+
+    @Builder
+    public User(Long id, String email, String nickname, int age, String password, Role role, String gitLink, String blogLink) {
+        this.id = id;
+        this.email = email;
+        this.nickname = nickname;
+        this.age = age;
+        this.password = password;
+        this.role = role;
+        this.gitLink = gitLink;
+        this.blogLink = blogLink;
+    }
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
