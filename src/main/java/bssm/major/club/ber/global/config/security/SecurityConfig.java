@@ -45,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/**").permitAll()
                 // 비밀번호를 모르는 상태이기 때문에 인증이 필요없어야 함
-                .antMatchers("/auth/login").permitAll()
+                .antMatchers("/auth/logout").authenticated()
+                .antMatchers("/auth/**").permitAll()
                 .antMatchers("/email/delete").authenticated()
                 .antMatchers("/email/**").permitAll()
                 .anyRequest().authenticated()

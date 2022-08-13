@@ -27,4 +27,10 @@ public class AuthApiController {
     public void logout(HttpServletRequest request) {
         authService.logout(request.getHeader("ACCESS-TOKEN"));
     }
+
+    @PutMapping("/refresh")
+    @ResponseStatus(HttpStatus.OK)
+    public TokenResponseDto getNewAccessToken(@RequestHeader(value = "REFRESH-TOKEN") String refreshToken) {
+        return authService.getNewAccessToken(refreshToken);
+    }
 }
