@@ -48,4 +48,13 @@ public class AuthService {
 
         jwtTokenProvider.logout(user.getEmail(), accessToken);
     }
+
+    public TokenResponseDto getNewAccessToken(String refreshToken) {
+        jwtValidateService.validateRefreshToken(refreshToken);
+
+        return TokenResponseDto.builder()
+                .accessToken(jwtTokenProvider.createAccessToken(
+                        jwtValidateService.getEmail(refreshToken)))
+                .build();
+    }
 }
