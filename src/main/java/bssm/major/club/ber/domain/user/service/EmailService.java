@@ -7,6 +7,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
+import bssm.major.club.ber.global.exception.CustomException;
+import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -162,7 +164,7 @@ public class EmailService {
 
     public void sendForgetPassword(String email) throws Exception {
         userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         MimeMessage message = createForgetPasswordMessage(email);
 

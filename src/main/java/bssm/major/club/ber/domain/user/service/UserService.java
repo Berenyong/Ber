@@ -4,6 +4,8 @@ import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.domain.user.web.dto.UserJoinRequestDto;
 import bssm.major.club.ber.domain.user.web.dto.UserResponseDto;
+import bssm.major.club.ber.global.exception.CustomException;
+import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,17 +21,17 @@ public class UserService {
     private final EmailService emailService;
 
     @Transactional
-    public UserResponseDto signup(UserJoinRequestDto request) {
+    public UserResponseDto signup(UserJoinRequestDto request) throws Exception {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 회원입니다.");
+            throw new CustomException(ErrorCode.ALREADY_EXISTS_USER);
         }
 
         if (!request.getPassword().equals(request.getCheckPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
         }
 
         if (emailService.verifyCode(request.getCheckEmailCode())) {
-            throw new IllegalArgumentException("이메일 코드가 일치하지 않습니다.");
+            throw new CustomException(ErrorCode.NOT_MATCH_CODE);
         }
 
         User user = userRepository.save(request.toEntity());
