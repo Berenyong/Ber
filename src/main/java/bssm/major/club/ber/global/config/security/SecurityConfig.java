@@ -43,8 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/**").permitAll()
+                .antMatchers("/user/join").permitAll()
+                // 비밀번호를 모르는 상태이기 때문에 인증이 필요없어야 함
+                .antMatchers("/user/update/password").permitAll()
+                .antMatchers("/user/find/**").permitAll()
                 .antMatchers("/auth/login").permitAll()
+                .antMatchers("/email/delete").authenticated()
+                .antMatchers("/email/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailService, jwtValidateService),

@@ -188,7 +188,13 @@ public class EmailService {
         System.out.println("code match : " + ePw.equals(code));
 
         return !ePw.equals(code);
-
     }
 
+    public boolean confirmCode(String code) {
+        if (verifyCode(code)) {
+            throw new CustomException(ErrorCode.NOT_MATCH_CODE);
+        }
+
+        return true;
+    }
 }
