@@ -26,7 +26,7 @@ public class UserApiController {
 
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.OK)
-    public UserResponseDto signup(@RequestBody UserJoinRequestDto request) {
+    public UserResponseDto signup(@RequestBody UserJoinRequestDto request) throws Exception {
         return userService.signup(request);
     }
 
