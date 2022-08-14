@@ -14,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static bssm.major.club.ber.global.jwt.JwtProperties.REFRESH_TOKEN_VALID_TIME;
 
 @RequiredArgsConstructor
@@ -32,8 +35,11 @@ public class AuthService {
 
         user.matchedPassword(passwordEncoder, user, request.getPassword());
 
-        final String accessToken = jwtTokenProvider.createAccessToken(request.getEmail());
-        final String refreshToken = jwtTokenProvider.createRefreshToken(request.getEmail());
+        List<String> roles = new ArrayList<>();
+        roles.add(user.getRole().name());
+
+        final String accessToken = jwtTokenProvider.createAccessToken(request.getEmail(), roles);
+        final String refreshToken = jwtTokenProvider.createRefreshToken(request.getEmail(), roles);
         redisService.setDataExpire(request.getEmail(), refreshToken, REFRESH_TOKEN_VALID_TIME);
 
         return TokenResponseDto.builder()
@@ -52,9 +58,12 @@ public class AuthService {
     public TokenResponseDto getNewAccessToken(String refreshToken) {
         jwtValidateService.validateRefreshToken(refreshToken);
 
+        List<String> roles = new ArrayList<>();
+        roles.add(jwtValidateService.getRole(refreshToken));
+
         return TokenResponseDto.builder()
                 .accessToken(jwtTokenProvider.createAccessToken(
-                        jwtValidateService.getEmail(refreshToken)))
+                        jwtValidateService.getEmail(refreshToken), roles))
                 .build();
     }
 }

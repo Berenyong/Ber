@@ -1,8 +1,11 @@
 package bssm.major.club.ber.domain.user.domain;
 
+import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.user.domain.type.Role;
+import bssm.major.club.ber.global.entity.Likes;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
+import bssm.major.club.ber.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,11 +13,15 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class User extends BaseTimeEntity{
+public class User extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +40,12 @@ public class User extends BaseTimeEntity{
     private String gitLink;
 
     private String blogLink;
+
+    @OneToMany(mappedBy = "user")
+    private List<Likes> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer", cascade = ALL)
+    private List<ManagerPost> managerPost = new ArrayList<>();
 
     @Builder
     public User(Long id, String email, String nickname, int age, String password, Role role, String gitLink, String blogLink) {
@@ -75,8 +88,11 @@ public class User extends BaseTimeEntity{
     }
 
     public void addUserAuthority() {
-        this.role = Role.USER;
+        this.role = Role.ROLE_USER;
     }
 
-
+    //== 연관관계 편의 메소드==/
+    public void addManagerPost(ManagerPost managerPost) {
+        this.getManagerPost().add(managerPost);
+    }
 }
