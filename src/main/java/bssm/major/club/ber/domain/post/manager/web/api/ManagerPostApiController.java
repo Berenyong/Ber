@@ -39,4 +39,13 @@ public class ManagerPostApiController {
         return new Result(post.size(), post);
     }
 
+    @GetMapping("/find/all")
+    public Result pagePosts(
+            @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
+            Pageable pageable) {
+
+        List<ManagerPostResponseDto> managerPost = managerPostService.all(pageable);
+
+        return new Result(managerPost.size(), managerPost);
+    }
 }

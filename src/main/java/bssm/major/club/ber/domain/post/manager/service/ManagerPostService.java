@@ -34,7 +34,7 @@ public class ManagerPostService {
 
         ManagerPost managerPost = managerPostRepository.save(request.toEntity());
         managerPost.confirmWriter(user);
-        
+
         return managerPost.getId();
     }
 
@@ -53,4 +53,12 @@ public class ManagerPostService {
                 .map(ManagerPostResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    public List<ManagerPostResponseDto> all(Pageable pageable) {
+        return managerPostRepository.findAll(pageable)
+                .stream()
+                .map(ManagerPostResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 }
