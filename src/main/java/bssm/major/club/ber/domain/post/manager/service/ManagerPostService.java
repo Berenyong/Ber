@@ -32,4 +32,13 @@ public class ManagerPostService {
         return new ManagerPostResponseDto(managerPost);
     }
 
+    @Transactional
+    public ManagerPostResponseDto detail(Long id) {
+        ManagerPost managerPost = managerPostRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        managerPost.upView();
+        return new ManagerPostResponseDto(managerPost);
+    }
+
 }

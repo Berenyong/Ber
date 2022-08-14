@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/email/delete").authenticated()
                 .antMatchers("/email/**").permitAll()
+                .antMatchers("/manager/find/**").permitAll()
                 .antMatchers("/manager/**")
                 .access("hasRole('MANAGER') or hasRole('ADMIN')")
                 .anyRequest().authenticated()
