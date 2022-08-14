@@ -10,26 +10,32 @@ import bssm.major.club.ber.global.config.security.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
+@Slf4j
 public class ManagerPostService {
 
     private final UserRepository userRepository;
     private final ManagerPostRepository managerPostRepository;
 
     @Transactional
-    public ManagerPostResponseDto createPost(ManagerPostCreateRequestDto request) {
+    public Long createPost(ManagerPostCreateRequestDto request) {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
 
         ManagerPost managerPost = managerPostRepository.save(request.toEntity());
         managerPost.confirmWriter(user);
-
-        return new ManagerPostResponseDto(managerPost);
+        
+        return managerPost.getId();
     }
 
     @Transactional
@@ -41,4 +47,10 @@ public class ManagerPostService {
         return new ManagerPostResponseDto(managerPost);
     }
 
+    public List<ManagerPostResponseDto> findByTitle(String title, Pageable pageable) {
+        return managerPostRepository.findByTitle(title, pageable)
+                .stream()
+                .map(ManagerPostResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

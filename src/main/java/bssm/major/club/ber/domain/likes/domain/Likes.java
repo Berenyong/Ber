@@ -19,12 +19,12 @@ public class Likes {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "manager_post_id")
-    private ManagerPost managerPost;
-
-    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "manager_post_id")
+    private ManagerPost managerPost;
 
     @Builder
     public Likes(Long id, ManagerPost managerPost, User user) {
