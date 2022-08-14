@@ -19,6 +19,7 @@ import java.security.Key;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 import static bssm.major.club.ber.global.jwt.JwtProperties.JWT_ACCESS;
 
@@ -39,9 +40,10 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String email, long time) {
+    public String createToken(String email, List<String> roles, long time) {
         Claims claims = Jwts.claims();
         claims.put("email", email);
+        claims.put("roles", roles);
         Date now = new Date();
 
         return Jwts.builder()
@@ -52,12 +54,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createAccessToken(String email) {
-        return createToken(email, JwtProperties.ACCESS_TOKEN_VALID_TIME);
+    public String createAccessToken(String email, List<String> roles) {
+        return createToken(email, roles, JwtProperties.ACCESS_TOKEN_VALID_TIME);
     }
 
-    public String createRefreshToken(String email) {
-        return createToken(email, JwtProperties.REFRESH_TOKEN_VALID_TIME);
+    public String createRefreshToken(String email, List<String> roles) {
+        return createToken(email, roles, JwtProperties.REFRESH_TOKEN_VALID_TIME);
     }
 
     public String resolveToken(HttpServletRequest request) {

@@ -49,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/email/delete").authenticated()
                 .antMatchers("/email/**").permitAll()
+                .antMatchers("/manager/**")
+                .access("hasRole('MANAGER') or hasRole('ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailService, jwtValidateService),
