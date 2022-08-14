@@ -1,4 +1,4 @@
-package bssm.major.club.ber.global.entity;
+package bssm.major.club.ber.domain.likes.domain;
 
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.user.domain.User;
