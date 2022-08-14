@@ -41,7 +41,7 @@ public class User extends BaseTimeEntity {
 
     private String blogLink;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Likes> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = ALL)

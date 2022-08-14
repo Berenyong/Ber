@@ -12,6 +12,7 @@ public class ManagerPostCreateRequestDto {
     private final String content;
     private final User writer;
 
+    @Builder
     public ManagerPostCreateRequestDto(String title, String content, User writer) {
         this.title = title;
         this.content = content;

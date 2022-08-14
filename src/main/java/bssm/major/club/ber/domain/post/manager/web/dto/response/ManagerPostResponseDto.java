@@ -1,10 +1,7 @@
 package bssm.major.club.ber.domain.post.manager.web.dto.response;
 
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
-import bssm.major.club.ber.domain.likes.domain.Likes;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 public class ManagerPostResponseDto {
