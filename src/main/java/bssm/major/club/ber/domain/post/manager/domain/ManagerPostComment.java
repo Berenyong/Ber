@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -34,6 +35,14 @@ public class ManagerPostComment extends BasePostEntity {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User writer;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "parent_id")
+    @JsonIgnore
+    private ManagerPostComment parent;
+
+    @OneToMany(mappedBy = "parent")
+    private final List<ManagerPostComment> childList = new ArrayList<>();
 
     @Builder
     public ManagerPostComment(String comment, ManagerPost managerPost, User writer) {
@@ -57,4 +66,12 @@ public class ManagerPostComment extends BasePostEntity {
         post.confirmComment(this);
     }
 
+    public void confirmParent(ManagerPostComment parent){
+        this.parent = parent;
+        parent.addChild(this);
+    }
+
+    public void addChild(ManagerPostComment child){
+        childList.add(child);
+    }
 }

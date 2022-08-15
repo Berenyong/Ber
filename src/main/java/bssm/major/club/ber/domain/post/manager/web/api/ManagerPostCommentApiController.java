@@ -24,9 +24,17 @@ public class ManagerPostCommentApiController {
         return managerPostCommentService.createComment(id, request);
     }
 
+    @PostMapping("/create/{postId}/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Long saveRe(@PathVariable("postId") Long postId,
+                       @PathVariable("commentId") Long commentId,
+                       @RequestBody ManagerPostCommentRequestDto request) {
+        return managerPostCommentService.createReComment(postId, commentId, request);
+    }
+
     @GetMapping("/all/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Result detail(@PathVariable Long id) {
+    public Result all(@PathVariable Long id) {
         List<ManagerPostCommentResponseDto> managerPostCommentResponse = managerPostCommentService.findAllDesc(id);
         return new Result(managerPostCommentResponse.size(), managerPostCommentResponse);
     }

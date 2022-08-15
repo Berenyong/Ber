@@ -49,6 +49,22 @@ public class ManagerPostCommentService {
         return managerPostComment.getId();
     }
 
+    @Transactional
+    public Long createReComment(Long postId, Long commentId, ManagerPostCommentRequestDto request) {
+        ManagerPostComment comment = request.toEntity();
+        comment.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)));
+
+        comment.confirmPost(managerPostRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND)));
+
+        comment.confirmParent(managerPostCommentRepository.findById(commentId)
+                .orElseThrow(() -> new CustomException(ErrorCode.COMMENTS_NOT_FOUND)));
+
+        managerPostCommentRepository.save(comment);
+        return comment.getId();
+    }
+
     public List<ManagerPostCommentResponseDto> findAllDesc(Long id) {
         return managerPostCommentRepository.findAllDesc(id)
                 .stream()
