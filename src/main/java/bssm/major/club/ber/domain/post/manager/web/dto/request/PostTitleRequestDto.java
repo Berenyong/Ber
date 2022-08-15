@@ -1,4 +1,4 @@
-package bssm.major.club.ber.domain.post.manager.web.dto;
+package bssm.major.club.ber.domain.post.manager.web.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
