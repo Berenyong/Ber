@@ -1,6 +1,7 @@
 package bssm.major.club.ber.domain.user.domain;
 
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
 import bssm.major.club.ber.domain.user.domain.type.Role;
 import bssm.major.club.ber.domain.likes.domain.Likes;
 import bssm.major.club.ber.global.exception.CustomException;
@@ -47,6 +48,8 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "writer", cascade = ALL)
     private List<ManagerPost> managerPost = new ArrayList<>();
 
+    @OneToMany(mappedBy = "writer", cascade = ALL)
+    private List<ManagerPostComment> managerPostComments = new ArrayList<>();
     @Builder
     public User(Long id, String email, String nickname, int age, String password, Role role, String gitLink, String blogLink) {
         this.id = id;
@@ -95,4 +98,9 @@ public class User extends BaseTimeEntity {
     public void addManagerPost(ManagerPost managerPost) {
         this.getManagerPost().add(managerPost);
     }
+
+    public void addComment(ManagerPostComment comment) {
+        this.getManagerPostComments().add(comment);
+    }
+
 }
