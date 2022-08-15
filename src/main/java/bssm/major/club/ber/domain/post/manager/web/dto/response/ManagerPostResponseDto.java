@@ -18,7 +18,6 @@ public class ManagerPostResponseDto {
     private final Long writerId;
     private final int view;
     private final int likes;
-    private final List<Long> managerPostComments = new ArrayList<>();
 
     public ManagerPostResponseDto(ManagerPost managerPost) {
         this.id = managerPost.getId();
@@ -28,9 +27,6 @@ public class ManagerPostResponseDto {
         this.writerId = managerPost.getWriter().getId();
         this.view = managerPost.getView();
         this.likes = managerPost.getLikes().size();
-
-        managerPost.getManagerPostComment()
-                .forEach(c -> managerPostComments.add(c.getId()));
     }
 
 }
