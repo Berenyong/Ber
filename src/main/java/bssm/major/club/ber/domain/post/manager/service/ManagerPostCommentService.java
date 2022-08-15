@@ -55,4 +55,17 @@ public class ManagerPostCommentService {
                 .map(ManagerPostCommentResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    public Long delete(Long id) {
+        ManagerPostComment managerPostComment = managerPostCommentRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        if (!managerPostComment.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+            throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
+        }
+
+        managerPostCommentRepository.delete(managerPostComment);
+
+        return id;
+    }
 }
