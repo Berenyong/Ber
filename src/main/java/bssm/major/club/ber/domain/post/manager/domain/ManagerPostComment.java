@@ -2,6 +2,9 @@ package bssm.major.club.ber.domain.post.manager.domain;
 
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.global.entity.BasePostEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,10 +27,12 @@ public class ManagerPostComment extends BasePostEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "mangerPost_id")
+    @JsonIgnore
     private ManagerPost managerPost;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User writer;
 
     @Builder

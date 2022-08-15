@@ -3,6 +3,8 @@ package bssm.major.club.ber.domain.post.manager.domain;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.global.entity.BasePostEntity;
 import bssm.major.club.ber.domain.likes.domain.Likes;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
