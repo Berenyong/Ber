@@ -35,6 +35,9 @@ public class ManagerPost extends BasePostEntity {
     @OneToMany(mappedBy = "managerPost")
     private List<Likes> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "managerPost")
+    private List<ManagerPostComment> managerPostComment = new ArrayList<>();
+
     @Builder
     public ManagerPost(String title, String content, User writer, int view, List<Likes> likes) {
         this.title = title;
@@ -58,4 +61,7 @@ public class ManagerPost extends BasePostEntity {
         writer.addManagerPost(this);
     }
 
+    public void confirmComment(ManagerPostComment comment) {
+        this.managerPostComment.add(comment);
+    }
 }
