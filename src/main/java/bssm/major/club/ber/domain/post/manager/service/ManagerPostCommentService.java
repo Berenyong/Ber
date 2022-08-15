@@ -5,6 +5,7 @@ import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostCommentRepository;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCommentRequestDto;
+import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostCommentResponseDto;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.global.config.security.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
@@ -13,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -46,4 +49,10 @@ public class ManagerPostCommentService {
         return managerPostComment.getId();
     }
 
+    public List<ManagerPostCommentResponseDto> findAllDesc(Long id) {
+        return managerPostCommentRepository.findAllDesc(id)
+                .stream()
+                .map(ManagerPostCommentResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }
