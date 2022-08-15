@@ -59,4 +59,9 @@ public class ManagerPostApiController {
         return managerPostService.update(id, request);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        return managerPostService.delete(id);
+    }
+
 }

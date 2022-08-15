@@ -70,4 +70,18 @@ public class ManagerPostService {
         return new ManagerPostResponseDto(managerPost);
     }
 
+    @Transactional
+    public String delete(Long id) {
+        ManagerPost managerPosts = managerPostRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        if (!managerPosts.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+            throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
+        }
+
+        managerPostRepository.delete(managerPosts);
+
+        return "정상적으로 삭제되었습니다.";
+    }
+
 }
