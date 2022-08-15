@@ -2,6 +2,7 @@ package bssm.major.club.ber.domain.post.manager.web.api;
 
 import bssm.major.club.ber.domain.post.manager.service.ManagerPostCommentService;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCommentRequestDto;
+import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostReCommentCreateRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostCommentResponseDto;
 import bssm.major.club.ber.global.generic.Result;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class ManagerPostCommentApiController {
     @ResponseStatus(HttpStatus.OK)
     public Long saveRe(@PathVariable("postId") Long postId,
                        @PathVariable("commentId") Long commentId,
-                       @RequestBody ManagerPostCommentRequestDto request) {
+                       @RequestBody ManagerPostReCommentCreateRequestDto request) {
         return managerPostCommentService.createReComment(postId, commentId, request);
     }
 
