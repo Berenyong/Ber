@@ -15,6 +15,7 @@ import bssm.major.club.ber.global.config.security.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
+@Slf4j
 public class ManagerPostCommentService {
 
     private final ManagerPostCommentRepository managerPostCommentRepository;
@@ -91,6 +93,21 @@ public class ManagerPostCommentService {
         }
 
         managerPostCommentRepository.delete(managerPostComment);
+
+        return id;
+    }
+
+    @Transactional
+    public Long deleteRe(Long id) {
+        ManagerPostReComment managerPostReComment = managerPostReCommentRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.COMMENTS_NOT_FOUND));
+
+        log.error(managerPostReComment.getWriter().getEmail());
+        if (!managerPostReComment.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+            throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
+        }
+
+        managerPostReCommentRepository.delete(managerPostReComment);
 
         return id;
     }

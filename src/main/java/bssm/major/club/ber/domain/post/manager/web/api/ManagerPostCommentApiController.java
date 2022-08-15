@@ -46,4 +46,10 @@ public class ManagerPostCommentApiController {
         return managerPostCommentService.delete(id);
     }
 
+    @DeleteMapping("/delete/re/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Long deleteRe(@PathVariable Long id) {
+        return managerPostCommentService.deleteRe(id);
+    }
+
 }
