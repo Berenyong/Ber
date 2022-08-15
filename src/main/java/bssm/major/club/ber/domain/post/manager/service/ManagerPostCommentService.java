@@ -28,7 +28,6 @@ public class ManagerPostCommentService {
     public Long createComment(Long id, ManagerPostCommentRequestDto request) {
         Optional<ManagerPost> byId = Optional.of(managerPostRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND)));
-        ManagerPost freePosts = byId.get();
 
         ManagerPostComment managerPostComment = request.toEntity();
 

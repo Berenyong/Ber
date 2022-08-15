@@ -1,7 +1,12 @@
 package bssm.major.club.ber.domain.post.manager.web.dto.response;
 
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class ManagerPostResponseDto {
@@ -13,6 +18,7 @@ public class ManagerPostResponseDto {
     private final Long writerId;
     private final int view;
     private final int likes;
+    private final List<Long> managerPostComments = new ArrayList<>();
 
     public ManagerPostResponseDto(ManagerPost managerPost) {
         this.id = managerPost.getId();
@@ -22,5 +28,9 @@ public class ManagerPostResponseDto {
         this.writerId = managerPost.getWriter().getId();
         this.view = managerPost.getView();
         this.likes = managerPost.getLikes().size();
+
+        managerPost.getManagerPostComment()
+                .forEach(c -> managerPostComments.add(c.getId()));
     }
+
 }
