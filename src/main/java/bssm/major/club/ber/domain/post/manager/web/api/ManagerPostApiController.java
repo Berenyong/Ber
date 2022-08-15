@@ -1,7 +1,7 @@
 package bssm.major.club.ber.domain.post.manager.web.api;
 
 import bssm.major.club.ber.domain.post.manager.service.ManagerPostService;
-import bssm.major.club.ber.domain.post.manager.web.dto.PostTitleRequestDto;
+import bssm.major.club.ber.domain.post.manager.web.dto.request.PostTitleRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCreateRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostResponseDto;
 import bssm.major.club.ber.global.generic.Result;
