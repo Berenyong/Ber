@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,16 +23,19 @@ public class ManagerPostApiController {
     private final ManagerPostService managerPostService;
 
     @PostMapping("/create")
+    @ResponseStatus(HttpStatus.OK)
     public Long create(@RequestBody ManagerPostCreateRequestDto request) {
         return managerPostService.createPost(request);
     }
 
     @GetMapping("/find/detail/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ManagerPostResponseDto detail(@PathVariable Long id) {
         return managerPostService.detail(id);
     }
 
     @GetMapping("/find/title")
+    @ResponseStatus(HttpStatus.OK)
     public Result findByTitle(@RequestBody @Valid PostTitleRequestDto request,
                               @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
                               Pageable pageable) {
@@ -40,6 +44,7 @@ public class ManagerPostApiController {
     }
 
     @GetMapping("/find/all")
+    @ResponseStatus(HttpStatus.OK)
     public Result pagePosts(
             @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
             Pageable pageable) {
@@ -48,4 +53,10 @@ public class ManagerPostApiController {
 
         return new Result(managerPost.size(), managerPost);
     }
+
+    @PutMapping("/update/{id}")
+    public ManagerPostResponseDto update(@PathVariable Long id, @RequestBody @Valid ManagerPostCreateRequestDto request) {
+        return managerPostService.update(id, request);
+    }
+
 }

@@ -61,4 +61,13 @@ public class ManagerPostService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public ManagerPostResponseDto update(Long id, ManagerPostCreateRequestDto request) {
+        ManagerPost managerPost = managerPostRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        managerPost.update(request.getTitle(), request.getContent());
+        return new ManagerPostResponseDto(managerPost);
+    }
+
 }

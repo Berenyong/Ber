@@ -14,6 +14,4 @@ import javax.persistence.Table;
 @Entity
 public class ProjectPost extends BasePostEntity {
 
-
-
 }
