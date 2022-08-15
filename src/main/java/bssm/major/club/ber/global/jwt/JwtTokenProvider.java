@@ -100,4 +100,5 @@ public class JwtTokenProvider {
             throw new CustomException(ErrorCode.EXPIRED_TOKEN);
         }
     }
+
 }

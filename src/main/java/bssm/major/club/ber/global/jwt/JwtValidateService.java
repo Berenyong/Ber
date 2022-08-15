@@ -22,9 +22,11 @@ public class JwtValidateService {
         return jwtTokenProvider.extractAllClaims(token)
                 .get("roles", String.class);
     }
+
     public void validateRefreshToken(String token) {
         if (redisService.getData(getEmail(token)) == null) {
             throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
     }
+
 }
