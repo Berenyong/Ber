@@ -38,6 +38,8 @@ logging.level:
   org.hibernate.type: trace
   # parameter Binding
 
+server:
+  port: 8081
 ---
 
 spring:
