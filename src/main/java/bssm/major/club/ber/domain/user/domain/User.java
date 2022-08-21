@@ -1,5 +1,6 @@
 package bssm.major.club.ber.domain.user.domain;
 
+import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostReComment;
@@ -29,6 +30,8 @@ public class User extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+    private int classNumber;
     private String email;
 
     private String nickname;
@@ -56,6 +59,10 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "writer", cascade = ALL)
     @JsonIgnore
     private final List<ManagerPostReComment> managerPostReComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = ALL)
+    @JsonIgnore
+    private final List<Ber> ber = new ArrayList<>();
 
     @Builder
     public User(Long id, String email, String nickname, int age, String password, Role role, String gitLink, String blogLink) {
@@ -112,5 +119,9 @@ public class User extends BaseTimeEntity {
 
     public void addReComment(ManagerPostReComment reComment) {
         this.getManagerPostReComments().add(reComment);
+    }
+
+    public void addBer(Ber ber) {
+        this.ber.add(ber);
     }
 }
