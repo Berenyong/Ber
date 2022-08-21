@@ -2,8 +2,13 @@ package bssm.major.club.ber.domain.ber.service;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.repository.BerRepository;
+import bssm.major.club.ber.domain.ber.web.dto.request.BerAnswerRequestDto;
+import bssm.major.club.ber.domain.ber.web.dto.request.BerConfirmRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerReservationRequestDto;
+import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmReservationResponseDto;
+import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmResponseDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerReservationResponseDto;
+import bssm.major.club.ber.domain.ber.web.dto.response.BerWarningResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.global.config.security.SecurityUtil;
@@ -13,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +38,13 @@ public class BerService {
 
         Ber ber = berRepository.save(request.toEntity());
         ber.confirmUser(user);
-        ber.addStatus();
+        ber.addStatusWaiting();
+
+        if (LocalDate.now().isBefore(user.getDisciplinePeriod())) {
+            throw new CustomException(ErrorCode.DONT_ACCESS_BER);
+        } else {
+            user.initDisciplinePeriod();
+        }
 
         return new BerReservationResponseDto(ber);
     }
@@ -40,5 +53,95 @@ public class BerService {
         return berRepository.findAll().stream()
                 .map(BerReservationResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public BerConfirmResponseDto confirm(Long id, BerConfirmRequestDto request) {
+        Ber ber = berRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        switch (request.getStatus()) {
+            case "WAITING":
+                ber.addStatusWaiting();
+                break;
+            case "APPROVAL":
+                ber.addStatusAccept();
+                break;
+            case "REFUSAL":
+                ber.addStatusRefusal();
+                break;
+        }
+
+        ber.updateAnswer(request.getAnswer());
+        return new BerConfirmResponseDto(ber);
+    }
+
+    public List<BerReservationResponseDto> myReservation() {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+
+        return berRepository.findAll().stream()
+//                .filter(b -> b.getStatus().name().equals("WAITING"))
+                .filter(b -> b.getUser().equals(user))
+                .map(BerReservationResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<BerConfirmReservationResponseDto> myReservationStatus() {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+
+        return berRepository.findAll().stream()
+//                .filter(b -> b.getStatus().name().equals("WAITING"))
+                .filter(b -> b.getUser().equals(user))
+                .map(BerConfirmReservationResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public BerConfirmResponseDto updateAnswer(Long id, String answer) {
+        Ber ber = berRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
+        ber.updateAnswer(answer);
+
+        return new BerConfirmResponseDto(ber);
+    }
+
+    @Transactional
+    public BerReservationResponseDto updateMyReservation(Long id, BerReservationRequestDto request) {
+        Ber ber = berRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        ber.updateNumber(request.getNumber());
+        ber.updateTitle(request.getTitle());
+        ber.updateContent(request.getContent());
+
+        return new BerReservationResponseDto(ber);
+    }
+
+    @Transactional
+    public void cancelReservation(Long id) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+
+        Ber ber = berRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        berRepository.delete(ber);
+    }
+
+    @Transactional
+    public BerWarningResponseDto addWarning(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        user.addWarning();
+
+        if (user.getWarning() == 2) {
+            user.initWarning();
+            user.add2Days();
+        }
+
+        return new BerWarningResponseDto(user);
     }
 }

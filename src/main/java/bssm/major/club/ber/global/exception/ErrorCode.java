@@ -22,8 +22,10 @@ public enum ErrorCode {
     USER_NOT_LOGIN(403, "로그인 후 이용해주세요"),
 
     DONT_ACCESS_OTHER(400, "자신의 게시글만 삭제할 수 있습니다."),
+    DONT_ACCESS_BER(400, "현재 베르실을 이용할 수 없는 기간입니다."),
     POSTS_NOT_FOUND(404, "존재하지 않는 게시글입니다."),
     COMMENTS_NOT_FOUND(404, "해당 댓글이 존재하지 않습니다."),
+    RESERVATION_NOT_FOUND(404, "존재하지 않는 예약입니다."),
 
     EXPIRED_TOKEN(401, "만료된 토큰입니다."),
     INVALID_TOKEN(401, "무효한 토큰입니다."),
