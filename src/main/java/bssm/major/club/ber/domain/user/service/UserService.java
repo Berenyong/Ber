@@ -43,6 +43,12 @@ public class UserService {
         user.encodePassword(passwordEncoder);
         user.addUserAuthority();
 
+        if (request.getGender().equals("MAN")) {
+            user.addMan();
+        } else {
+            user.addWoman();
+        }
+
         return new UserResponseDto(user);
     }
 

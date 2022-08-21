@@ -11,14 +11,12 @@ public class BerReservationRequestDto {
     private final int number;
     private final String title;
     private final String content;
-    private final Gender gender;
 
     @Builder
-    public BerReservationRequestDto(int number, String title, String content, Gender gender) {
+    public BerReservationRequestDto(int number, String title, String content) {
         this.number = number;
         this.title = title;
         this.content = content;
-        this.gender = gender;
     }
 
     public Ber toEntity() {
@@ -26,7 +24,6 @@ public class BerReservationRequestDto {
                 .number(number)
                 .title(title)
                 .content(content)
-                .gender(gender)
                 .build();
     }
 }

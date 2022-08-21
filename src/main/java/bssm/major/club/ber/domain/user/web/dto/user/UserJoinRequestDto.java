@@ -1,5 +1,6 @@
 package bssm.major.club.ber.domain.user.web.dto.user;
 
+import bssm.major.club.ber.domain.ber.domain.type.Gender;
 import bssm.major.club.ber.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,14 +31,17 @@ public class UserJoinRequestDto {
             message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
     private String password;
     private String checkPassword;
+    private String gender;
 
     @Builder
-    public UserJoinRequestDto(String email, String nickname, int age, String password, String checkPassword) {
+    public UserJoinRequestDto(String email, String checkEmailCode, String nickname, int age, String password, String checkPassword, String gender) {
         this.email = email;
+        this.checkEmailCode = checkEmailCode;
         this.nickname = nickname;
         this.age = age;
         this.password = password;
         this.checkPassword = checkPassword;
+        this.gender = gender;
     }
 
     public User toEntity(){

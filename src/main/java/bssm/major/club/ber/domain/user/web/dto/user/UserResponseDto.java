@@ -12,6 +12,7 @@ public class UserResponseDto {
     private final String role;
     private final String gitLink;
     private final String blogLink;
+    private final int warning;
 
     // TODO
 //    private final Map<Long, String> freePosts;
@@ -23,5 +24,6 @@ public class UserResponseDto {
         this.role = user.getRole().name();
         this.gitLink = user.getGitLink();
         this.blogLink = user.getBlogLink();
+        this.warning = user.getWarning();
     }
 }
