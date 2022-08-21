@@ -30,6 +30,8 @@ public class User extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+    private int classNumber;
     private String email;
 
     private String nickname;
@@ -59,6 +61,7 @@ public class User extends BaseTimeEntity {
     private final List<ManagerPostReComment> managerPostReComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = ALL)
+    @JsonIgnore
     private final List<Ber> ber = new ArrayList<>();
 
     @Builder
