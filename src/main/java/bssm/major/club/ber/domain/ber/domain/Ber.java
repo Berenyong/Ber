@@ -1,5 +1,7 @@
-package bssm.major.club.ber.domain.ber;
+package bssm.major.club.ber.domain.ber.domain;
 
+import bssm.major.club.ber.domain.ber.domain.type.Gender;
+import bssm.major.club.ber.domain.ber.domain.type.Status;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -28,6 +30,8 @@ public class Ber extends BaseTimeEntity {
 
     private Gender gender;
 
+    private Status status;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -41,7 +45,7 @@ public class Ber extends BaseTimeEntity {
         this.gender = gender;
         this.user = user;
     }
-    
+
     public void updateNumber(int number) {
         this.number = number;
     }
@@ -59,4 +63,7 @@ public class Ber extends BaseTimeEntity {
         user.addBer(this);
     }
 
+    public void addStatus() {
+        this.status = Status.WAITING;
+    }
 }

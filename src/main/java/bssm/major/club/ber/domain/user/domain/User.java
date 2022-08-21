@@ -1,6 +1,6 @@
 package bssm.major.club.ber.domain.user.domain;
 
-import bssm.major.club.ber.domain.ber.Ber;
+import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostReComment;
