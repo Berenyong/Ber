@@ -23,10 +23,22 @@ public class BerApiController {
         return berService.createReservation(request);
     }
 
-    @GetMapping("/my/reservation")
+    @GetMapping("/reservation")
     @ResponseStatus(HttpStatus.OK)
-    public List<BerConfirmReservationResponseDto> myReservation() {
+    public List<BerReservationResponseDto> myReservation() {
         return berService.myReservation();
+    }
+
+    @GetMapping("/reservation/status")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BerConfirmReservationResponseDto> myReservationStatus() {
+        return berService.myReservationStatus();
+    }
+
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public BerReservationResponseDto updateMyReservation(@PathVariable Long id, @RequestBody BerReservationRequestDto request) {
+        return berService.updateMyReservation(id, request);
     }
 
 }

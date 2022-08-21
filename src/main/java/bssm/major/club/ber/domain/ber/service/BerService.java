@@ -67,7 +67,18 @@ public class BerService {
         return new BerConfirmResponseDto(ber);
     }
 
-    public List<BerConfirmReservationResponseDto> myReservation() {
+    public List<BerReservationResponseDto> myReservation() {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+
+        return berRepository.findAll().stream()
+//                .filter(b -> b.getStatus().name().equals("WAITING"))
+                .filter(b -> b.getUser().equals(user))
+                .map(BerReservationResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<BerConfirmReservationResponseDto> myReservationStatus() {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
 
@@ -85,5 +96,17 @@ public class BerService {
         ber.updateAnswer(answer);
 
         return new BerConfirmResponseDto(ber);
+    }
+
+    @Transactional
+    public BerReservationResponseDto updateMyReservation(Long id, BerReservationRequestDto request) {
+        Ber ber = berRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        ber.updateNumber(request.getNumber());
+        ber.updateTitle(request.getTitle());
+        ber.updateContent(request.getContent());
+
+        return new BerReservationResponseDto(ber);
     }
 }

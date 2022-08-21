@@ -1,6 +1,7 @@
 package bssm.major.club.ber.domain.user.domain;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
+import bssm.major.club.ber.domain.ber.domain.type.Gender;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostReComment;
@@ -42,6 +43,9 @@ public class User extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     private String gitLink;
 
@@ -106,6 +110,14 @@ public class User extends BaseTimeEntity {
 
     public void addUserAuthority() {
         this.role = Role.ROLE_USER;
+    }
+
+    public void addMan() {
+        this.gender = Gender.MAN;
+    }
+
+    public void addWoman() {
+        this.gender = Gender.WOMAN;
     }
 
     //== 연관관계 편의 메소드==/

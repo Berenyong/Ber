@@ -20,7 +20,7 @@ public class BerReservationResponseDto {
         this.number = ber.getNumber();
         this.title = ber.getTitle();
         this.content = ber.getContent();
-        this.gender = ber.getGender();
+        this.gender = ber.getUser().getGender();
         this.student = ber.getUser().getName();
         this.classNumber = ber.getUser().getClassNumber();
     }

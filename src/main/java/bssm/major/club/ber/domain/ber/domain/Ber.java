@@ -28,8 +28,6 @@ public class Ber extends BaseTimeEntity {
 
     private String content;
 
-    private Gender gender;
-
     private Status status;
     private String answer;
 
@@ -38,12 +36,11 @@ public class Ber extends BaseTimeEntity {
     private User user;
 
     @Builder
-    public Ber(Long id, int number, String title, String content, Gender gender, Status status, String answer, User user) {
+    public Ber(Long id, int number, String title, String content, Status status, String answer, User user) {
         this.id = id;
         this.number = number;
         this.title = title;
         this.content = content;
-        this.gender = gender;
         this.status = status;
         this.answer = answer;
         this.user = user;
