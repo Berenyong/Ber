@@ -2,6 +2,7 @@ package bssm.major.club.ber.domain.ber.service;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.repository.BerRepository;
+import bssm.major.club.ber.domain.ber.web.dto.request.BerAnswerRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerConfirmRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerReservationRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmReservationResponseDto;
@@ -75,5 +76,14 @@ public class BerService {
                 .filter(b -> b.getUser().equals(user))
                 .map(BerConfirmReservationResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public BerConfirmResponseDto updateAnswer(Long id, String answer) {
+        Ber ber = berRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
+        ber.updateAnswer(answer);
+
+        return new BerConfirmResponseDto(ber);
     }
 }

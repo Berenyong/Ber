@@ -1,6 +1,7 @@
 package bssm.major.club.ber.domain.ber.web.api;
 
 import bssm.major.club.ber.domain.ber.service.BerService;
+import bssm.major.club.ber.domain.ber.web.dto.request.BerAnswerRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerConfirmRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmResponseDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerReservationResponseDto;
@@ -32,4 +33,9 @@ public class BerAdminApiController {
         return berService.confirm(id, request);
     }
 
+    @PutMapping("/answer/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public BerConfirmResponseDto updateAnswer(@PathVariable Long id, @RequestBody BerAnswerRequestDto request) {
+        return berService.updateAnswer(id, request.getAnswer());
+    }
 }
