@@ -53,7 +53,7 @@ public class BerService {
             case "WAITING":
                 ber.addStatusWaiting();
                 break;
-            case "ACCEPT":
+            case "APPROVAL":
                 ber.addStatusAccept();
                 break;
             case "REFUSAL":

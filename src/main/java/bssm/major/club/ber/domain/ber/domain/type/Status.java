@@ -1,5 +1,5 @@
 package bssm.major.club.ber.domain.ber.domain.type;
 
 public enum Status {
-    WAITING, ACCEPT, REFUSAL;
+    WAITING, APPROVAL, REFUSAL;
 }

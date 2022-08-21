@@ -31,18 +31,21 @@ public class Ber extends BaseTimeEntity {
     private Gender gender;
 
     private Status status;
+    private String answer;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
-    public Ber(Long id, int number, String title, String content, Gender gender, User user) {
+    public Ber(Long id, int number, String title, String content, Gender gender, Status status, String answer, User user) {
         this.id = id;
         this.number = number;
         this.title = title;
         this.content = content;
         this.gender = gender;
+        this.status = status;
+        this.answer = answer;
         this.user = user;
     }
 
@@ -57,6 +60,9 @@ public class Ber extends BaseTimeEntity {
     public void updateContent(String content) {
         this.content = content;
     }
+    public void updateAnswer(String answer) {
+        this.answer = answer;
+    }
 
     public void confirmUser(User user) {
         this.user = user;
@@ -68,7 +74,7 @@ public class Ber extends BaseTimeEntity {
     }
 
     public void addStatusAccept() {
-        this.status = Status.ACCEPT;
+        this.status = Status.APPROVAL;
     }
 
     public void addStatusRefusal() {
