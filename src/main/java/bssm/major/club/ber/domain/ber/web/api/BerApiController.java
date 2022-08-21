@@ -46,5 +46,5 @@ public class BerApiController {
     public void cancelReservation(@PathVariable Long id) {
         berService.cancelReservation(id);
     }
-    
+
 }
