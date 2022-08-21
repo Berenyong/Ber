@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -31,5 +34,11 @@ public class BerService {
         ber.addStatus();
 
         return new BerReservationResponseDto(ber);
+    }
+
+    public List<BerReservationResponseDto> inquiry() {
+        return berRepository.findAll().stream()
+                .map(BerReservationResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
