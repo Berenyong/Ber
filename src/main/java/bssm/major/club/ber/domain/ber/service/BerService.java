@@ -4,6 +4,7 @@ import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.repository.BerRepository;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerConfirmRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerReservationRequestDto;
+import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmReservationResponseDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmResponseDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerReservationResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
@@ -61,6 +62,18 @@ public class BerService {
                 break;
         }
 
+        ber.updateAnswer(request.getAnswer());
         return new BerConfirmResponseDto(ber);
+    }
+
+    public List<BerConfirmReservationResponseDto> myReservation() {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+
+        return berRepository.findAll().stream()
+//                .filter(b -> b.getStatus().name().equals("WAITING"))
+                .filter(b -> b.getUser().equals(user))
+                .map(BerConfirmReservationResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

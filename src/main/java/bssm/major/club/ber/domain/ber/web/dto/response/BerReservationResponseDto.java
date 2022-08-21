@@ -14,7 +14,6 @@ public class BerReservationResponseDto {
     private final int number;
     private final String content;
     private final Gender gender;
-    private final String status;
 
     public BerReservationResponseDto(Ber ber) {
         this.id = ber.getId();
@@ -22,7 +21,6 @@ public class BerReservationResponseDto {
         this.title = ber.getTitle();
         this.content = ber.getContent();
         this.gender = ber.getGender();
-        this.status = ber.getStatus().name();
         this.student = ber.getUser().getName();
         this.classNumber = ber.getUser().getClassNumber();
     }

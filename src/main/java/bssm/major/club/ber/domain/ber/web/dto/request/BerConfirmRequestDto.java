@@ -23,9 +23,4 @@ public class BerConfirmRequestDto {
         this.answer = answer;
     }
 
-    public Ber toEntity() {
-        return Ber.builder()
-                .answer(answer)
-                .build();
-    }
 }
