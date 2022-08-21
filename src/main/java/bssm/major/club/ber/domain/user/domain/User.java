@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class User extends BaseTimeEntity {
     private Long id;
 
     private String name;
+
     private int classNumber;
     private String email;
 
@@ -51,6 +54,17 @@ public class User extends BaseTimeEntity {
 
     private String blogLink;
     private int warning = 0;
+
+    private LocalDate disciplinePeriod;
+
+    public void add2Days() {
+        this.disciplinePeriod = LocalDate.now();
+        this.disciplinePeriod = disciplinePeriod.plusDays(2);
+    }
+
+    public void initDisciplinePeriod() {
+        this.disciplinePeriod = null;
+    }
 
     @OneToMany(mappedBy = "user", cascade = ALL)
     private final List<Likes> likes = new ArrayList<>();
@@ -112,6 +126,19 @@ public class User extends BaseTimeEntity {
     public void addUserAuthority() {
         this.role = Role.ROLE_USER;
     }
+
+    public void addManager() {
+        this.role = Role.ROLE_MANAGER;
+    }
+
+    public void addAdmin() {
+        this.role = Role.ROLE_ADMIN;
+    }
+
+    public void addDiscipline() {
+        this.role = Role.ROLE_DISCIPLINE;
+    }
+
 
     public void addMan() {
         this.gender = Gender.MAN;

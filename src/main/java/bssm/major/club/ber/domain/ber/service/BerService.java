@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,12 @@ public class BerService {
         Ber ber = berRepository.save(request.toEntity());
         ber.confirmUser(user);
         ber.addStatusWaiting();
+
+        if (LocalDate.now().isBefore(user.getDisciplinePeriod())) {
+            throw new CustomException(ErrorCode.DONT_ACCESS_BER);
+        } else {
+            user.initDisciplinePeriod();
+        }
 
         return new BerReservationResponseDto(ber);
     }
@@ -131,7 +139,7 @@ public class BerService {
 
         if (user.getWarning() == 2) {
             user.initWarning();
-            
+            user.add2Days();
         }
 
         return new BerWarningResponseDto(user);
