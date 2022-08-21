@@ -63,7 +63,15 @@ public class Ber extends BaseTimeEntity {
         user.addBer(this);
     }
 
-    public void addStatus() {
+    public void addStatusWaiting() {
         this.status = Status.WAITING;
+    }
+
+    public void addStatusAccept() {
+        this.status = Status.ACCEPT;
+    }
+
+    public void addStatusRefusal() {
+        this.status = Status.REFUSAL;
     }
 }

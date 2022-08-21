@@ -2,7 +2,9 @@ package bssm.major.club.ber.domain.ber.service;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.repository.BerRepository;
+import bssm.major.club.ber.domain.ber.web.dto.request.BerConfirmRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerReservationRequestDto;
+import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmResponseDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerReservationResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
@@ -31,7 +33,7 @@ public class BerService {
 
         Ber ber = berRepository.save(request.toEntity());
         ber.confirmUser(user);
-        ber.addStatus();
+        ber.addStatusWaiting();
 
         return new BerReservationResponseDto(ber);
     }
@@ -40,5 +42,25 @@ public class BerService {
         return berRepository.findAll().stream()
                 .map(BerReservationResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public BerConfirmResponseDto confirm(Long id, BerConfirmRequestDto request) {
+        Ber ber = berRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        switch (request.getStatus()) {
+            case "WAITING":
+                ber.addStatusWaiting();
+                break;
+            case "ACCEPT":
+                ber.addStatusAccept();
+                break;
+            case "REFUSAL":
+                ber.addStatusRefusal();
+                break;
+        }
+
+        return new BerConfirmResponseDto(ber);
     }
 }
