@@ -8,6 +8,7 @@ import bssm.major.club.ber.domain.ber.web.dto.request.BerReservationRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmReservationResponseDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmResponseDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerReservationResponseDto;
+import bssm.major.club.ber.domain.ber.web.dto.response.BerWarningResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.global.config.security.SecurityUtil;
@@ -119,5 +120,20 @@ public class BerService {
                 .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
 
         berRepository.delete(ber);
+    }
+
+    @Transactional
+    public BerWarningResponseDto addWarning(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        user.addWarning();
+
+        if (user.getWarning() == 2) {
+            user.initWarning();
+            
+        }
+
+        return new BerWarningResponseDto(user);
     }
 }

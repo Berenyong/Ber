@@ -35,8 +35,6 @@ public class Ber extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private int warning = 0;
-
     @Builder
     public Ber(Long id, int number, String title, String content, Status status, String answer, User user) {
         this.id = id;

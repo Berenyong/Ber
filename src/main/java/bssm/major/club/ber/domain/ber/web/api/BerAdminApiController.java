@@ -5,6 +5,7 @@ import bssm.major.club.ber.domain.ber.web.dto.request.BerAnswerRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerConfirmRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmResponseDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerReservationResponseDto;
+import bssm.major.club.ber.domain.ber.web.dto.response.BerWarningResponseDto;
 import bssm.major.club.ber.global.generic.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,4 +39,11 @@ public class BerAdminApiController {
     public BerConfirmResponseDto updateAnswer(@PathVariable Long id, @RequestBody BerAnswerRequestDto request) {
         return berService.updateAnswer(id, request.getAnswer());
     }
+
+    @PutMapping("/warning/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public BerWarningResponseDto warning(@PathVariable Long id) {
+        return berService.addWarning(id);
+    }
+
 }

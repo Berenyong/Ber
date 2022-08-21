@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 public class BerReservationResponseDto {
 
-    private final Long id;
+    private final Long reservationId;
+    private final Long userId;
     private final String student;
     private final int classNumber;
     private final String title;
@@ -16,7 +17,8 @@ public class BerReservationResponseDto {
     private final Gender gender;
 
     public BerReservationResponseDto(Ber ber) {
-        this.id = ber.getId();
+        this.reservationId = ber.getId();
+        this.userId = ber.getUser().getId();
         this.number = ber.getNumber();
         this.title = ber.getTitle();
         this.content = ber.getContent();

@@ -50,6 +50,7 @@ public class User extends BaseTimeEntity {
     private String gitLink;
 
     private String blogLink;
+    private int warning = 0;
 
     @OneToMany(mappedBy = "user", cascade = ALL)
     private final List<Likes> likes = new ArrayList<>();
@@ -135,5 +136,12 @@ public class User extends BaseTimeEntity {
 
     public void addBer(Ber ber) {
         this.ber.add(ber);
+    }
+    public void addWarning() {
+        this.warning ++;
+    }
+
+    public void initWarning() {
+        this.warning = 0;
     }
 }
