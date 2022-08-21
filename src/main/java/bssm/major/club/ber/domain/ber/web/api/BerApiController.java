@@ -41,4 +41,10 @@ public class BerApiController {
         return berService.updateMyReservation(id, request);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelReservation(@PathVariable Long id) {
+        berService.cancelReservation(id);
+    }
+    
 }

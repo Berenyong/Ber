@@ -109,4 +109,15 @@ public class BerService {
 
         return new BerReservationResponseDto(ber);
     }
+
+    @Transactional
+    public void cancelReservation(Long id) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+
+        Ber ber = berRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        berRepository.delete(ber);
+    }
 }
