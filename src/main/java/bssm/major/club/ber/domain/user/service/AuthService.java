@@ -35,11 +35,8 @@ public class AuthService {
 
         user.matchedPassword(passwordEncoder, user, request.getPassword());
 
-        List<String> roles = new ArrayList<>();
-        roles.add(user.getRole().name());
-
-        final String accessToken = jwtTokenProvider.createAccessToken(request.getEmail(), roles);
-        final String refreshToken = jwtTokenProvider.createRefreshToken(request.getEmail(), roles);
+        final String accessToken = jwtTokenProvider.createAccessToken(request.getEmail(), user.getNickname());
+        final String refreshToken = jwtTokenProvider.createRefreshToken(request.getEmail(), user.getNickname());
         redisService.setDataExpire(request.getEmail(), refreshToken, REFRESH_TOKEN_VALID_TIME);
 
         return TokenResponseDto.builder()
@@ -56,14 +53,13 @@ public class AuthService {
     }
 
     public TokenResponseDto getNewAccessToken(String refreshToken) {
-        jwtValidateService.validateRefreshToken(refreshToken);
+        jwtValidateService.validateToken(refreshToken);
 
-        List<String> roles = new ArrayList<>();
-        roles.add(jwtValidateService.getRole(refreshToken));
+        String nickname = jwtValidateService.getNickname(refreshToken);
 
         return TokenResponseDto.builder()
                 .accessToken(jwtTokenProvider.createAccessToken(
-                        jwtValidateService.getEmail(refreshToken), roles))
+                        jwtValidateService.getEmail(refreshToken), refreshToken))
                 .build();
     }
 }

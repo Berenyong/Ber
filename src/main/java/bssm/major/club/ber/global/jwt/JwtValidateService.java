@@ -23,7 +23,12 @@ public class JwtValidateService {
                 .get("roles", String.class);
     }
 
-    public void validateRefreshToken(String token) {
+    public String getNickname(String token) {
+        return jwtTokenProvider.extractAllClaims(token)
+                .get("nickname", String.class);
+    }
+
+    public void validateToken(String token) {
         if (redisService.getData(getEmail(token)) == null) {
             throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
