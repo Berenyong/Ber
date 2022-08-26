@@ -40,7 +40,7 @@ public class BerService {
         ber.confirmUser(user);
         ber.addStatusWaiting();
 
-        if (LocalDate.now().isBefore(user.getDisciplinePeriod())) {
+        if (user.getDisciplinePeriod() != null && LocalDate.now().isBefore(user.getDisciplinePeriod())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_BER);
         } else {
             user.initDisciplinePeriod();

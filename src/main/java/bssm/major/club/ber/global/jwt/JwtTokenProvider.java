@@ -40,10 +40,11 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String email, List<String> roles, long time) {
+    public String createToken(String email, String nickname, long time) {
         Claims claims = Jwts.claims();
         claims.put("email", email);
-        claims.put("roles", roles);
+        claims.put("nickname", nickname);
+
         Date now = new Date();
 
         return Jwts.builder()
@@ -54,12 +55,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createAccessToken(String email, List<String> roles) {
-        return createToken(email, roles, JwtProperties.ACCESS_TOKEN_VALID_TIME);
+    public String createAccessToken(String email, String nickname) {
+        return createToken(email, nickname, JwtProperties.ACCESS_TOKEN_VALID_TIME);
     }
 
-    public String createRefreshToken(String email, List<String> roles) {
-        return createToken(email, roles, JwtProperties.REFRESH_TOKEN_VALID_TIME);
+    public String createRefreshToken(String email, String nickname) {
+        return createToken(email, nickname, JwtProperties.REFRESH_TOKEN_VALID_TIME);
     }
 
     public String resolveToken(HttpServletRequest request) {
