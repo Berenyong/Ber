@@ -34,7 +34,9 @@ public class User extends BaseTimeEntity {
 
     private String name;
 
+    @Column(unique = true)
     private int classNumber;
+
     private String email;
 
     private String nickname;
@@ -83,15 +85,20 @@ public class User extends BaseTimeEntity {
     private final List<Ber> ber = new ArrayList<>();
 
     @Builder
-    public User(Long id, String email, String nickname, int age, String password, Role role, String gitLink, String blogLink) {
+    public User(Long id, String name, int classNumber, String email, String nickname, int age, String password, Role role, Gender gender, String gitLink, String blogLink, int warning, LocalDate disciplinePeriod) {
         this.id = id;
+        this.name = name;
+        this.classNumber = classNumber;
         this.email = email;
         this.nickname = nickname;
         this.age = age;
         this.password = password;
         this.role = role;
+        this.gender = gender;
         this.gitLink = gitLink;
         this.blogLink = blogLink;
+        this.warning = warning;
+        this.disciplinePeriod = disciplinePeriod;
     }
 
     // Update User
