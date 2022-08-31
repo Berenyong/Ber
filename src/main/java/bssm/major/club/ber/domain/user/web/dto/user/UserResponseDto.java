@@ -1,7 +1,12 @@
 package bssm.major.club.ber.domain.user.web.dto.user;
 
+import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import lombok.Getter;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class UserResponseDto {
@@ -13,6 +18,7 @@ public class UserResponseDto {
     private final String gitLink;
     private final String blogLink;
     private final int warning;
+    private final List<ManagerPostResponseDto> managerPosts;
 
     // TODO
 //    private final Map<Long, String> freePosts;
@@ -25,5 +31,8 @@ public class UserResponseDto {
         this.gitLink = user.getGitLink();
         this.blogLink = user.getBlogLink();
         this.warning = user.getWarning();
+        this.managerPosts = user.getManagerPost().stream()
+                .map(ManagerPostResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
