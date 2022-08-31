@@ -18,6 +18,7 @@ public class ManagerPostResponseDto {
     private final Long writerId;
     private final int view;
     private final int likes;
+    private final List<ManagerPostCommentResponseDto> managerPostComments;
 
     public ManagerPostResponseDto(ManagerPost managerPost) {
         this.id = managerPost.getId();
@@ -27,6 +28,9 @@ public class ManagerPostResponseDto {
         this.writerId = managerPost.getWriter().getId();
         this.view = managerPost.getView();
         this.likes = managerPost.getLikes().size();
+        this.managerPostComments = managerPost.getManagerPostComment().stream()
+                .map(ManagerPostCommentResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }

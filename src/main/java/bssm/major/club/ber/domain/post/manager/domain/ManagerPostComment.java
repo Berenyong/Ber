@@ -28,7 +28,6 @@ public class ManagerPostComment extends BasePostEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "mangerPost_id")
-    @JsonIgnore
     private ManagerPost managerPost;
 
     @ManyToOne(fetch = LAZY)

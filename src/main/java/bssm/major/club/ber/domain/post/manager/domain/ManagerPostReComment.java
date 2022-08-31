@@ -22,12 +22,10 @@ public class ManagerPostReComment extends BasePostEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")
-    @JsonIgnore
     private ManagerPostComment parent;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "writer_id")
-    @JsonIgnore
     private User writer;
 
     private String writerName;
