@@ -20,9 +20,6 @@ public class UserResponseDto {
     private final int warning;
     private final List<ManagerPostResponseDto> managerPosts;
 
-    // TODO
-//    private final Map<Long, String> freePosts;
-
     public UserResponseDto(User user) {
         this.id = user.getId();
         this.nickname = user.getNickname();
