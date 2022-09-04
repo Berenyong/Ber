@@ -4,10 +4,7 @@ import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.repository.BerRepository;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerConfirmRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerReservationRequestDto;
-import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmReservationResponseDto;
-import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmResponseDto;
-import bssm.major.club.ber.domain.ber.web.dto.response.BerReservationResponseDto;
-import bssm.major.club.ber.domain.ber.web.dto.response.BerWarningResponseDto;
+import bssm.major.club.ber.domain.ber.web.dto.response.*;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.global.config.security.SecurityUtil;
@@ -106,7 +103,6 @@ public class BerService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
 
         return berRepository.findAll().stream()
-//                .filter(b -> b.getStatus().name().equals("WAITING"))
                 .filter(b -> b.getUser().equals(user))
                 .map(BerReservationResponseDto::new)
                 .collect(Collectors.toList());
@@ -117,7 +113,6 @@ public class BerService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
 
         return berRepository.findAll().stream()
-//                .filter(b -> b.getStatus().name().equals("WAITING"))
                 .filter(b -> b.getUser().equals(user))
                 .map(BerConfirmReservationResponseDto::new)
                 .collect(Collectors.toList());
@@ -168,5 +163,25 @@ public class BerService {
         }
 
         return new BerWarningResponseDto(user);
+    }
+
+    public CurrentStatusBerResponseDto currentStatusBer(String Ber_NO) {
+        System.out.println("Ber_NO = " + Ber_NO);
+
+        List<Ber> current = berRepository.findAll().stream()
+                .filter(b -> b.getBerNo().equals(Ber_NO))
+                .filter(b -> b.getStatus().name().equals("APPROVAL"))
+                .collect(Collectors.toList());
+
+        long waiting = berRepository.findAll().stream()
+                .filter(b -> b.getBerNo().equals(Ber_NO))
+                .filter(b -> b.getStatus().name().equals("WAITING"))
+                .count();
+
+        return new CurrentStatusBerResponseDto(
+                current.get(0).getBerNo(),
+                current.size(),
+                waiting
+        );
     }
 }

@@ -4,6 +4,8 @@ import bssm.major.club.ber.domain.ber.service.BerService;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerReservationRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmReservationResponseDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerReservationResponseDto;
+import bssm.major.club.ber.domain.ber.web.dto.response.CurrentStatusBerResponseDto;
+import bssm.major.club.ber.global.generic.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,12 @@ public class BerApiController {
     @ResponseStatus(HttpStatus.OK)
     public BerReservationResponseDto createReservation(@RequestBody BerReservationRequestDto request) {
         return berService.createReservation(request);
+    }
+
+    @GetMapping("/current")
+    @ResponseStatus(HttpStatus.OK)
+    public CurrentStatusBerResponseDto CurrentStatusBer(@RequestParam String num) {
+        return berService.currentStatusBer(num);
     }
 
     @GetMapping("/reservation")
