@@ -24,6 +24,7 @@ public class Ber extends BaseTimeEntity {
 
     private String berNo;
     private int max;
+    private int current = 0;
 
     private String title;
 
@@ -83,5 +84,9 @@ public class Ber extends BaseTimeEntity {
 
     public void updateMax(int max) {
         this.max= max;
+    }
+
+    public void increaseCurrent() {
+        this.current++;
     }
 }

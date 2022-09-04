@@ -33,7 +33,7 @@ public class BerService {
     public BerReservationResponseDto createReservation(BerReservationRequestDto request) {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
-        
+
         Ber ber = berRepository.save(request.toEntity());
         ber.confirmUser(user);
         ber.addStatusWaiting();
@@ -81,9 +81,6 @@ public class BerService {
                 .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
 
         switch (request.getStatus()) {
-            case "WAITING":
-                ber.addStatusWaiting();
-                break;
             case "APPROVAL":
                 ber.addStatusAccept();
                 break;
@@ -91,6 +88,14 @@ public class BerService {
                 ber.addStatusRefusal();
                 break;
         }
+
+        if (ber.getMax() == ber.getCurrent()) {
+            throw new CustomException(ErrorCode.OVER_FLOW_BER);
+        }
+
+        berRepository.findAll().stream()
+                .filter(b -> b.getBerNo().equals(ber.getBerNo()))
+                .forEach(Ber::increaseCurrent);
 
         ber.updateAnswer(request.getAnswer());
         return new BerConfirmResponseDto(ber);
