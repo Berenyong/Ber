@@ -1,6 +1,6 @@
 package bssm.major.club.ber.domain.ber.domain;
 
-import bssm.major.club.ber.domain.ber.domain.type.Gender;
+import bssm.major.club.ber.domain.ber.domain.type.BerNo;
 import bssm.major.club.ber.domain.ber.domain.type.Status;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.global.entity.BaseTimeEntity;
@@ -15,19 +15,21 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "ber")
+@Table(name = "BER")
 @Entity
 public class Ber extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int number;
+    private String berNo;
+    private int max;
 
     private String title;
 
     private String content;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
     private String answer;
 
@@ -36,9 +38,10 @@ public class Ber extends BaseTimeEntity {
     private User user;
 
     @Builder
-    public Ber(Long id, int number, String title, String content, Status status, String answer, User user) {
+    public Ber(Long id, String berNo, int max, String title, String content, Status status, String answer, User user) {
         this.id = id;
-        this.number = number;
+        this.berNo = berNo;
+        this.max = max;
         this.title = title;
         this.content = content;
         this.status = status;
@@ -46,8 +49,8 @@ public class Ber extends BaseTimeEntity {
         this.user = user;
     }
 
-    public void updateNumber(int number) {
-        this.number = number;
+    public void updateNumber(String berNo) {
+        this.berNo = berNo;
     }
 
     public void updateTitle(String title) {
@@ -76,5 +79,9 @@ public class Ber extends BaseTimeEntity {
 
     public void addStatusRefusal() {
         this.status = Status.REFUSAL;
+    }
+
+    public void updateMax(int max) {
+        this.max= max;
     }
 }

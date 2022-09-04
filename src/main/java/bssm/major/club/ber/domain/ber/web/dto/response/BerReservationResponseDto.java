@@ -1,6 +1,7 @@
 package bssm.major.club.ber.domain.ber.web.dto.response;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
+import bssm.major.club.ber.domain.ber.domain.type.BerNo;
 import bssm.major.club.ber.domain.ber.domain.type.Gender;
 import lombok.Getter;
 
@@ -14,7 +15,7 @@ public class BerReservationResponseDto {
     private final String student;
     private final int classNumber;
     private final String title;
-    private final int number;
+    private final String berNo;
     private final String content;
     private final Gender gender;
     private final LocalDate disciplinePeriod;
@@ -22,7 +23,7 @@ public class BerReservationResponseDto {
     public BerReservationResponseDto(Ber ber) {
         this.reservationId = ber.getId();
         this.userId = ber.getUser().getId();
-        this.number = ber.getNumber();
+        this.berNo = ber.getBerNo();
         this.title = ber.getTitle();
         this.content = ber.getContent();
         this.gender = ber.getUser().getGender();

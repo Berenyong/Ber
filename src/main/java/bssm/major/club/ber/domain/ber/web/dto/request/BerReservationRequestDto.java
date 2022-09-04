@@ -1,6 +1,7 @@
 package bssm.major.club.ber.domain.ber.web.dto.request;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
+import bssm.major.club.ber.domain.ber.domain.type.BerNo;
 import bssm.major.club.ber.domain.ber.domain.type.Gender;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,20 +9,20 @@ import lombok.Getter;
 @Getter
 public class BerReservationRequestDto {
 
-    private final int number;
+    private final String berNo;
     private final String title;
     private final String content;
 
     @Builder
-    public BerReservationRequestDto(int number, String title, String content) {
-        this.number = number;
+    public BerReservationRequestDto(String berNo, String title, String content) {
+        this.berNo = berNo;
         this.title = title;
         this.content = content;
     }
 
     public Ber toEntity() {
         return Ber.builder()
-                .number(number)
+                .berNo(berNo)
                 .title(title)
                 .content(content)
                 .build();

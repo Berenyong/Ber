@@ -2,7 +2,6 @@ package bssm.major.club.ber.domain.ber.service;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.repository.BerRepository;
-import bssm.major.club.ber.domain.ber.web.dto.request.BerAnswerRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerConfirmRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.request.BerReservationRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.BerConfirmReservationResponseDto;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,10 +33,32 @@ public class BerService {
     public BerReservationResponseDto createReservation(BerReservationRequestDto request) {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
-
+        
         Ber ber = berRepository.save(request.toEntity());
         ber.confirmUser(user);
         ber.addStatusWaiting();
+
+        switch (request.getBerNo()) {
+            case "Ber_NO1":
+            case "Ber_NO2":
+                ber.updateMax(3);
+                break;
+            case "Ber_NO3":
+                ber.updateMax(5);
+                break;
+            case "Ber_NO4":
+            case "Ber_NO6":
+            case "Ber_NO5":
+            case "Ber_NO9":
+                ber.updateMax(6);
+                break;
+            case "Ber_NO7":
+                ber.updateMax(7);
+                break;
+            case "Ber_NO8":
+                ber.updateMax(8);
+                break;
+        }
 
         if (user.getDisciplinePeriod() != null && LocalDate.now().isBefore(user.getDisciplinePeriod())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_BER);
@@ -112,7 +132,7 @@ public class BerService {
         Ber ber = berRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
 
-        ber.updateNumber(request.getNumber());
+        ber.updateNumber(request.getBerNo());
         ber.updateTitle(request.getTitle());
         ber.updateContent(request.getContent());
 
