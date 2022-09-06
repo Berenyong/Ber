@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/email/**").permitAll()
                 .antMatchers("/manager/find/**").permitAll()
                 .antMatchers("/manager/comment/all/**").permitAll()
-                
+
                 .antMatchers("/manager/**")
                 .access("hasRole('MANAGER') or hasRole('ADMIN')")
 

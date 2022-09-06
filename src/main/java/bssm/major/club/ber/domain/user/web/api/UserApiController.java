@@ -50,6 +50,12 @@ public class UserApiController {
         return userService.updatePassword(request);
     }
 
+    @PutMapping("/update/role/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateRole(@PathVariable Long id) {
+        userService.authorization(id);
+    }
+
    @DeleteMapping("/delete")
    @ResponseStatus(HttpStatus.OK)
    public String delete(@RequestBody UserDeleteRequestDto request) throws Exception {

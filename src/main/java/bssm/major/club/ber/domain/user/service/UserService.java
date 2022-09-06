@@ -114,4 +114,9 @@ public class UserService {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Transactional
+    public void authorization(Long id) {
+        userRepository.updateRole(id);
+    }
 }
