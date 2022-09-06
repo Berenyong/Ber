@@ -25,9 +25,9 @@ public class BerApiController {
         return berService.createReservation(request);
     }
 
-    @GetMapping("/current")
+    @GetMapping("/current/{num}")
     @ResponseStatus(HttpStatus.OK)
-    public CurrentStatusBerResponseDto CurrentStatusBer(@RequestParam String num) {
+    public CurrentStatusBerResponseDto CurrentStatusBer(@PathVariable String num) {
         return berService.currentStatusBer(num);
     }
 
