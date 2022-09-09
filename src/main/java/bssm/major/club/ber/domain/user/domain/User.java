@@ -77,11 +77,9 @@ public class User extends BaseTimeEntity {
     private final List<ManagerPostComment> managerPostComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = ALL)
-    @JsonIgnore
     private final List<ManagerPostReComment> managerPostReComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = ALL)
-    @JsonIgnore
     private final List<Ber> ber = new ArrayList<>();
 
     @Builder
