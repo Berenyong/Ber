@@ -27,9 +27,9 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -37,16 +37,14 @@ dependencies {
 	implementation 'org.webjars:sockjs-client:1.5.1'
 	implementation 'org.webjars:stomp-websocket:2.3.4'
 
-	// push log
-	implementation 'com.google.firebase:firebase-admin'
-
 	// open api json parser
 	//==
-	// https://open.neis.go.kr/hub/hisTimetable?
-	// KEY=3271c51fc69742b9bfe89a908d5497a2&Type=json&
+	// basic = https://open.neis.go.kr/hub/hisTimetable?
+	// KEY=3271c51fc69742b9bfe89a908d5497a2&
+	// Type=json&
 	// ATPT_OFCDC_SC_CODE=C10&
 	// SD_SCHUL_CODE=7150658&
-	// ALL_TI_YMD=20220913&
+	// ALL_TI_YMD=20220914&
 	// GRADE=2&
 	// CLASS_NM=2
 	//
