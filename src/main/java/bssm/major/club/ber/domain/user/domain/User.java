@@ -2,6 +2,7 @@ package bssm.major.club.ber.domain.user.domain;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.type.Gender;
+import bssm.major.club.ber.domain.category.user.UserCategory;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostReComment;
@@ -10,7 +11,6 @@ import bssm.major.club.ber.domain.likes.domain.Likes;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import bssm.major.club.ber.global.entity.BaseTimeEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -92,6 +92,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = ALL)
     private final List<Ber> ber = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserCategory> categories = new ArrayList<>();
 
     @Builder
     public User(Long id, String name, int classNumber, String email, String nickname, int age, String password, Role role, Gender gender, String gitLink, String blogLink, int warning, LocalDate disciplinePeriod) {
@@ -177,6 +180,10 @@ public class User extends BaseTimeEntity {
 
     public void addReComment(ManagerPostReComment reComment) {
         this.getManagerPostReComments().add(reComment);
+    }
+
+    public void addCategories(UserCategory category) {
+        this.categories.add(category);
     }
 
     //== 베르실 예약 ==/

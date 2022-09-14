@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "manager_post")
+@Table(name = "MANAGER_POST")
 @Entity
 public class ManagerPost extends BasePostEntity {
 
