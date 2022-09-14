@@ -2,6 +2,7 @@ package bssm.major.club.ber.domain.category.user.service;
 
 import bssm.major.club.ber.domain.category.user.domain.UserCategory;
 import bssm.major.club.ber.domain.category.user.repository.UserCategoryRepository;
+import bssm.major.club.ber.domain.category.web.dto.response.UserCategoryResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.global.config.security.SecurityUtil;
@@ -31,5 +32,12 @@ public class UserCategoryService {
         );
 
         userCategory.confirmUser(user);
+    }
+
+    public UserCategoryResponseDto findById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return new UserCategoryResponseDto(user.getCategories());
     }
 }

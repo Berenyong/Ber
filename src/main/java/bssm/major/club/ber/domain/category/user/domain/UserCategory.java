@@ -17,6 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Entity
 public class UserCategory extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
