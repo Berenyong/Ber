@@ -1,4 +1,4 @@
-package bssm.major.club.ber.domain.category.user;
+package bssm.major.club.ber.domain.category.user.domain;
 
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.global.entity.BaseTimeEntity;
