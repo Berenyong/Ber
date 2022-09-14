@@ -110,7 +110,7 @@ public class User extends BaseTimeEntity {
         this.disciplinePeriod = disciplinePeriod;
     }
 
-    // Update User
+    // Update User Info
     public void updateNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -125,6 +125,9 @@ public class User extends BaseTimeEntity {
 
     public void updateBlogLink(String blogLink) {
         this.blogLink = blogLink;
+    }
+    public void updateStatusMessage(String statusMassage) {
+        this.statusMessage = statusMassage;
     }
 
     // auth
@@ -155,11 +158,11 @@ public class User extends BaseTimeEntity {
     }
 
 
-    public void addMan() {
+    public void setMan() {
         this.gender = Gender.MAN;
     }
 
-    public void addWoman() {
+    public void setWoman() {
         this.gender = Gender.WOMAN;
     }
 
@@ -176,6 +179,7 @@ public class User extends BaseTimeEntity {
         this.getManagerPostReComments().add(reComment);
     }
 
+    //== 베르실 예약 ==/
     public void addBer(Ber ber) {
         this.ber.add(ber);
     }
@@ -186,4 +190,5 @@ public class User extends BaseTimeEntity {
     public void initWarning() {
         this.warning = 0;
     }
+
 }

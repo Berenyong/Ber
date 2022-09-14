@@ -44,9 +44,9 @@ public class UserService {
         user.addUserAuthority();
 
         if (request.getGender().equals("MAN")) {
-            user.addMan();
+            user.setMan();
         } else {
-            user.addWoman();
+            user.setWoman();
         }
 
         return new UserResponseDto(user);
@@ -75,6 +75,7 @@ public class UserService {
         user.updateNickname(request.getNickname());
         user.updateGitLink(request.getGitLink());
         user.updateBlogLink(request.getBlogLink());
+        user.updateStatusMessage(request.getStatusMassage());
 
         return new UserResponseDto(user);
     }
