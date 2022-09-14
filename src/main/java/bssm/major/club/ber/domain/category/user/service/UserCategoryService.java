@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -22,7 +20,7 @@ public class UserCategoryService {
     private final UserCategoryRepository userCategoryRepository;
 
     @Transactional
-    public Long createCategory(String category) {
+    public void createCategory(String category) {
         User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
 
@@ -33,7 +31,5 @@ public class UserCategoryService {
         );
 
         userCategory.confirmUser(user);
-
-        return user.getId();
     }
 }

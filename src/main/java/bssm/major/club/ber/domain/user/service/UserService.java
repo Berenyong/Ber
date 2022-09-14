@@ -1,5 +1,7 @@
 package bssm.major.club.ber.domain.user.service;
 
+import bssm.major.club.ber.domain.category.user.domain.UserCategory;
+import bssm.major.club.ber.domain.category.user.service.UserCategoryService;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.domain.user.web.dto.user.*;
@@ -23,6 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final UserCategoryService userCategoryService;
     private String email;
 
     @Transactional
@@ -76,6 +79,9 @@ public class UserService {
         user.updateGitLink(request.getGitLink());
         user.updateBlogLink(request.getBlogLink());
         user.updateStatusMessage(request.getStatusMassage());
+
+        request.getCategories()
+                .forEach(c -> userCategoryService.createCategory(c.getName()));
 
         return new UserResponseDto(user);
     }
