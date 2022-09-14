@@ -32,17 +32,22 @@ public class User extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 4)
     private String name;
 
     @Column(unique = true)
-    private int classNumber;
+    private int classNumber; // 학번
 
-    private String email;
+    @Column(length = 64)
+    private String email; // 학교 이메일
 
+    @Column(length = 64)
     private String nickname;
 
+    @Column(length = 4)
     private int age;
 
+    @Column(length = 256)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -51,9 +56,15 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Column(length = 256)
     private String gitLink;
 
+    @Column(length = 256)
     private String blogLink;
+
+    @Column(length = 128)
+    private String statusMessage;
+
     private int warning = 0;
 
     private LocalDate disciplinePeriod;
