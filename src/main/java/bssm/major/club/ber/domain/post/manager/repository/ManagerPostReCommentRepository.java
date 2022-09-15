@@ -12,7 +12,7 @@ import java.util.List;
 public interface ManagerPostReCommentRepository extends JpaRepository<ManagerPostReComment, Long> {
 
     @EntityGraph(attributePaths = {"writer", "managerPostComment"})
-    @Query("select mpc from ManagerPostReComment mpc where mpc.parent.id = :id order by mpc.createAt")
+    @Query("select mpc from ManagerPostReComment mpc where mpc.parent.id = :id order by mpc.createdAt")
     List<ManagerPostComment> findAllDesc(@Param("id") Long id);
 
 }

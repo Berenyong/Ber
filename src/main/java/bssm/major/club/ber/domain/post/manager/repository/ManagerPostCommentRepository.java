@@ -11,7 +11,7 @@ import java.util.List;
 public interface ManagerPostCommentRepository extends JpaRepository<ManagerPostComment, Long> {
 
     @EntityGraph(attributePaths = {"writer", "managerPost"})
-    @Query("select mpc from ManagerPostComment mpc where mpc.managerPost.id = :id order by mpc.createAt")
+    @Query("select mpc from ManagerPostComment mpc where mpc.managerPost.id = :id order by mpc.createdAt desc")
     List<ManagerPostComment> findAllDesc(@Param("id") Long id);
 
 }

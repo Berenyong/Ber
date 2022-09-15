@@ -46,7 +46,7 @@ public class ManagerPostApiController {
     @GetMapping("/find/all")
     @ResponseStatus(HttpStatus.OK)
     public Result pagePosts(
-            @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
+            @PageableDefault(size = 10)
             Pageable pageable) {
 
         List<ManagerPostResponseDto> managerPost = managerPostService.all(pageable);
