@@ -1,6 +1,6 @@
 package bssm.major.club.ber.domain.user.web.dto.user;
 
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.category.user.domain.UserCategory;
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import lombok.Getter;
@@ -19,6 +19,7 @@ public class UserResponseDto {
     private final String blogLink;
     private final int warning;
     private final List<ManagerPostResponseDto> managerPosts;
+    private final List<UserCategory> userCategories;
 
     public UserResponseDto(User user) {
         this.id = user.getId();
@@ -31,5 +32,6 @@ public class UserResponseDto {
         this.managerPosts = user.getManagerPost().stream()
                 .map(ManagerPostResponseDto::new)
                 .collect(Collectors.toList());
+        this.userCategories = user.getCategories();
     }
 }
