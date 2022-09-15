@@ -7,7 +7,6 @@ import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostRespo
 import bssm.major.club.ber.global.generic.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +36,7 @@ public class ManagerPostApiController {
     @GetMapping("/find/title")
     @ResponseStatus(HttpStatus.OK)
     public Result findByTitle(@RequestBody @Valid PostTitleRequestDto request,
-                              @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
+                              @PageableDefault(size = 9)
                               Pageable pageable) {
         List<ManagerPostResponseDto> post = managerPostService.findByTitle(request.getTitle(), pageable);
 

@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 public interface ManagerPostRepository extends JpaRepository<ManagerPost, Long> {
 
     @EntityGraph(attributePaths = {"writer"})
-    @Query("select m from ManagerPost m where m.title = :title")
+    @Query("select m from ManagerPost m where m.title = :title order by m.likes.size desc, m.createdAt desc")
     Page<ManagerPost> findByTitle(@Param("title") String title, Pageable pageable);
 
     @NotNull
