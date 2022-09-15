@@ -19,7 +19,7 @@ public class BasePostEntity {
     private Long id;
 
     @CreatedDate
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;

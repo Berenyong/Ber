@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +59,8 @@ public class ManagerPostService {
     public List<ManagerPostResponseDto> all(Pageable pageable) {
         return managerPostRepository.findAll(pageable)
                 .stream()
+                // 최근 일주일 인기 게시글
+                .filter(p -> ChronoUnit.MINUTES.between(p.getCreatedAt(), LocalDateTime.now()) < 10080)
                 .map(ManagerPostResponseDto::new)
                 .collect(Collectors.toList());
     }

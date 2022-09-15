@@ -1,6 +1,7 @@
 package bssm.major.club.ber.domain.post.manager.repository;
 
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -14,8 +15,9 @@ public interface ManagerPostRepository extends JpaRepository<ManagerPost, Long> 
     @Query("select m from ManagerPost m where m.title = :title")
     Page<ManagerPost> findByTitle(@Param("title") String title, Pageable pageable);
 
+    @NotNull
     @EntityGraph(attributePaths = {"writer"})
-    @Query("select m from ManagerPost m order by m.view desc")
-    Page<ManagerPost> findAll(Pageable pageable);
+    @Query("select m from ManagerPost m order by m.likes.size desc")
+    Page<ManagerPost> findAll(@NotNull Pageable pageable);
 
 }
