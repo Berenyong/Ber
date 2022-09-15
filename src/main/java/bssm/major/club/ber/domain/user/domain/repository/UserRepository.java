@@ -21,7 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     void deleteByEmail(String email);
 
-    // UPDATE Post p SET p.title = :title WHERE p.id = :id
     @Modifying
     @Query("update User u set u.role = 'ROLE_MANAGER' where u.id = :id")
     void updateRole(@Param("id") Long id);

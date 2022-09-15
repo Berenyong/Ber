@@ -40,16 +40,16 @@ public class ManagerPostApiController {
                               @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
                               Pageable pageable) {
         List<ManagerPostResponseDto> post = managerPostService.findByTitle(request.getTitle(), pageable);
+
         return new Result(post.size(), post);
     }
 
-    @GetMapping("/find/all")
+    @GetMapping("/find/popular")
     @ResponseStatus(HttpStatus.OK)
-    public Result pagePosts(
+    public Result popularPosts(
             @PageableDefault(size = 10)
             Pageable pageable) {
-
-        List<ManagerPostResponseDto> managerPost = managerPostService.all(pageable);
+        List<ManagerPostResponseDto> managerPost = managerPostService.popularPosts(pageable);
 
         return new Result(managerPost.size(), managerPost);
     }

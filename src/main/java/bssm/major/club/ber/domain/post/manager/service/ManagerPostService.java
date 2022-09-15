@@ -56,7 +56,7 @@ public class ManagerPostService {
                 .collect(Collectors.toList());
     }
 
-    public List<ManagerPostResponseDto> all(Pageable pageable) {
+    public List<ManagerPostResponseDto> popularPosts(Pageable pageable) {
         return managerPostRepository.findAllByOrderByLikesDesc(pageable)
                 .stream()
                 // 최근 일주일 인기 게시글
