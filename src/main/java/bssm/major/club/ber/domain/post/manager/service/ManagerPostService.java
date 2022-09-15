@@ -1,5 +1,6 @@
 package bssm.major.club.ber.domain.post.manager.service;
 
+import bssm.major.club.ber.domain.category.post.service.PostCategoryService;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCreateRequestDto;
@@ -28,6 +29,8 @@ public class ManagerPostService {
 
     private final UserRepository userRepository;
     private final ManagerPostRepository managerPostRepository;
+    private final PostCategoryService postCategoryService;
+
 
     @Transactional
     public Long createPost(ManagerPostCreateRequestDto request) {
@@ -36,6 +39,9 @@ public class ManagerPostService {
 
         ManagerPost managerPost = managerPostRepository.save(request.toEntity());
         managerPost.confirmWriter(user);
+
+        request.getCategories()
+                .forEach(c -> postCategoryService.createCategory(managerPost, c.getName()));
 
         return managerPost.getId();
     }

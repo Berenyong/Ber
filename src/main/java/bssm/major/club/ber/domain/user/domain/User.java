@@ -2,6 +2,7 @@ package bssm.major.club.ber.domain.user.domain;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.type.Gender;
+import bssm.major.club.ber.domain.category.post.domain.PostCategory;
 import bssm.major.club.ber.domain.category.user.domain.UserCategory;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
@@ -95,6 +96,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<UserCategory> categories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<PostCategory> postCategories = new ArrayList<>();
 
     @Builder
     public User(Long id, String name, int classNumber, String email, String nickname, int age, String password, Role role, Gender gender, String gitLink, String blogLink, int warning, LocalDate disciplinePeriod) {
@@ -198,4 +202,7 @@ public class User extends BaseTimeEntity {
         this.warning = 0;
     }
 
+    public void addPostCategories(PostCategory postCategory) {
+        this.postCategories.add(postCategory);
+    }
 }

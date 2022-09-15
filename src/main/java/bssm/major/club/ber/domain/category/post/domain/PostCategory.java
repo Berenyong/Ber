@@ -21,15 +21,26 @@ public class PostCategory {
     private String name;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "manager_post_id")
     @JsonIgnore
     private ManagerPost managerPost;
 
     @Builder
-    public PostCategory(Long id, String name, ManagerPost managerPost) {
+    public PostCategory(Long id, String name, User user, ManagerPost managerPost) {
         this.id = id;
         this.name = name;
+        this.user = user;
         this.managerPost = managerPost;
+    }
+
+    public void confirmUser(User user) {
+        user.addPostCategories(this);
+        this.user = user;
     }
 
     public void confirmManagerPost(ManagerPost managerPost) {
