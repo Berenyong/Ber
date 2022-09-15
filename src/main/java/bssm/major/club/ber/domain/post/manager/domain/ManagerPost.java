@@ -1,5 +1,6 @@
 package bssm.major.club.ber.domain.post.manager.domain;
 
+import bssm.major.club.ber.domain.category.post.domain.PostCategory;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.global.entity.BasePostEntity;
 import bssm.major.club.ber.domain.likes.domain.Likes;
@@ -40,6 +41,9 @@ public class ManagerPost extends BasePostEntity {
     @OneToMany(mappedBy = "managerPost")
     private List<ManagerPostComment> managerPostComment = new ArrayList<>();
 
+    @OneToMany(mappedBy = "managerPost")
+    private List<PostCategory> postCategories = new ArrayList<>();
+
     @Builder
     public ManagerPost(String title, String content, User writer, int view, List<Likes> likes) {
         this.title = title;
@@ -65,5 +69,9 @@ public class ManagerPost extends BasePostEntity {
 
     public void confirmComment(ManagerPostComment comment) {
         this.managerPostComment.add(comment);
+    }
+
+    public void addCategory(PostCategory category) {
+        postCategories.add(category);
     }
 }
