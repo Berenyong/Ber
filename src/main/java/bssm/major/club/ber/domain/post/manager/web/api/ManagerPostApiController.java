@@ -47,11 +47,21 @@ public class ManagerPostApiController {
     @GetMapping("/find/popular")
     @ResponseStatus(HttpStatus.OK)
     public Result popularPosts(
-            @PageableDefault(size = 10)
+            @PageableDefault(size = 9)
             Pageable pageable) {
         List<ManagerPostResponseDto> managerPost = managerPostService.popularPosts(pageable);
 
         return new Result(managerPost.size(), managerPost);
+    }
+
+    @GetMapping("/find/all")
+    @ResponseStatus(HttpStatus.OK)
+    public Result allPosts(
+            @PageableDefault(size = 9)
+            Pageable pageable) {
+
+        List<ManagerPostResponseDto> response = managerPostService.allPosts(pageable);
+        return new Result(response.size(), response);
     }
 
     @PutMapping("/update/{id}")

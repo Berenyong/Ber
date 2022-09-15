@@ -20,4 +20,7 @@ public interface ManagerPostRepository extends JpaRepository<ManagerPost, Long> 
     @Query("select m from ManagerPost m order by m.likes.size desc, m.createdAt desc")
     Page<ManagerPost> findAllByOrderByLikesDesc(@NotNull Pageable pageable);
 
+    @NotNull
+    @Query("select m from ManagerPost m order by m.createdAt desc")
+    Page<ManagerPost> findAll(@NotNull Pageable pageable);
 }

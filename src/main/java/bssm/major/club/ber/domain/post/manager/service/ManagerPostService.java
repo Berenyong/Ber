@@ -65,6 +65,14 @@ public class ManagerPostService {
                 .collect(Collectors.toList());
     }
 
+    // 최근에 올라온 게시글 순서
+    public List<ManagerPostResponseDto> allPosts(Pageable pageable) {
+        return managerPostRepository.findAll(pageable)
+                .stream()
+                .map(ManagerPostResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public ManagerPostResponseDto update(Long id, ManagerPostCreateRequestDto request) {
         ManagerPost managerPost = managerPostRepository.findById(id)
