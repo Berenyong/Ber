@@ -57,7 +57,7 @@ public class ManagerPostService {
     }
 
     public List<ManagerPostResponseDto> all(Pageable pageable) {
-        return managerPostRepository.findAll(pageable)
+        return managerPostRepository.findAllByOrderByLikesDesc(pageable)
                 .stream()
                 // 최근 일주일 인기 게시글
                 .filter(p -> ChronoUnit.MINUTES.between(p.getCreatedAt(), LocalDateTime.now()) < 10080)

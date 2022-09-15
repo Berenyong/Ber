@@ -17,7 +17,7 @@ public interface ManagerPostRepository extends JpaRepository<ManagerPost, Long> 
 
     @NotNull
     @EntityGraph(attributePaths = {"writer"})
-    @Query("select m from ManagerPost m order by m.likes.size desc")
+    @Query("select m from ManagerPost m order by m.likes.size desc, m.createdAt desc")
     Page<ManagerPost> findAllByOrderByLikesDesc(@NotNull Pageable pageable);
 
 }
