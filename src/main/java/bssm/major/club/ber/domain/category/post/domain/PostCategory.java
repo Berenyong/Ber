@@ -5,12 +5,14 @@ import bssm.major.club.ber.domain.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
+@NoArgsConstructor
 @Entity
 public class PostCategory {
 

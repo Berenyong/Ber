@@ -1,5 +1,7 @@
 package bssm.major.club.ber.domain.post.manager.web.dto.response;
 
+import bssm.major.club.ber.domain.category.post.domain.PostCategory;
+import bssm.major.club.ber.domain.category.post.dto.response.PostCategoryResponseDto;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import lombok.Getter;
 
@@ -20,6 +22,7 @@ public class ManagerPostResponseDto {
     private final int likes;
     private final List<ManagerPostCommentResponseDto> managerPostComments;
     private final String createMinutesAgo;
+    private final List<PostCategoryResponseDto> postCategories;
 
     public ManagerPostResponseDto(ManagerPost managerPost) {
         this.id = managerPost.getId();
@@ -33,6 +36,9 @@ public class ManagerPostResponseDto {
                 .map(ManagerPostCommentResponseDto::new)
                 .collect(Collectors.toList());
         this.createMinutesAgo = ChronoUnit.MINUTES.between(managerPost.getCreatedAt(), LocalDateTime.now()) + "분전";
+        this.postCategories = managerPost.getPostCategories().stream()
+                .map(PostCategoryResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }
