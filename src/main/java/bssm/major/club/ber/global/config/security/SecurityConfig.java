@@ -21,7 +21,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -78,7 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedOrigin("/**");
         configuration.setAllowedOrigins(Arrays.asList("http://52.79.57.84:8081"));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
