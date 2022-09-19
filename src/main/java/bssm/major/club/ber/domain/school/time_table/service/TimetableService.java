@@ -30,7 +30,7 @@ public class TimetableService {
     private final String schoolCode = "SD_SCHUL_CODE=7150658&";
 
     private final String basicUrl = basic + key + type + cityCode + schoolCode;
-
+    
     public TimeTableResponseDto getTimetable(int grade, int classNo, int day) throws IOException {
         String apiUrl = basicUrl + "ALL_TI_YMD=" + day + "&" + "GRADE=" + grade + "&" + "CLASS_NM=" + classNo;
 
@@ -63,6 +63,8 @@ public class TimetableService {
             stt.nextToken();
             subjects.add(stt.nextToken());
         }
+
+        System.out.println("subjects = " + subjects);
 
         return new TimeTableResponseDto(subjects);
     }
