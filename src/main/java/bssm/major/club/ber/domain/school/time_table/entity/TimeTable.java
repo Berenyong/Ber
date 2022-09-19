@@ -1,6 +1,5 @@
 package bssm.major.club.ber.domain.school.time_table.entity;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Entity
 public class TimeTable {
 
