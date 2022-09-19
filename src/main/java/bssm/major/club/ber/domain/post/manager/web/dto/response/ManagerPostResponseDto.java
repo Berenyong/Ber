@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class ManagerPostResponseDto {
 
     private final Long id;
+    private final String imgPath;
     private final String title;
     private final String content;
     private final String writer;
@@ -26,6 +27,7 @@ public class ManagerPostResponseDto {
 
     public ManagerPostResponseDto(ManagerPost managerPost) {
         this.id = managerPost.getId();
+        this.imgPath = managerPost.getImgUrl();
         this.title = managerPost.getTitle();
         this.content = managerPost.getContent();
         this.writer = managerPost.getWriter().getNickname();

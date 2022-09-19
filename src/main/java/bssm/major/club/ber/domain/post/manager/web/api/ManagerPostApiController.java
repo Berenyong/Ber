@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class ManagerPostApiController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.OK)
-    public Long create(@RequestBody ManagerPostCreateRequestDto request) {
+    public Long create(ManagerPostCreateRequestDto request) throws IOException {
         return managerPostService.createPost(request);
     }
 
@@ -64,7 +65,7 @@ public class ManagerPostApiController {
     }
 
     @PutMapping("/update/{id}")
-    public ManagerPostResponseDto update(@PathVariable Long id, @RequestBody @Valid ManagerPostCreateRequestDto request) {
+    public ManagerPostResponseDto update(@PathVariable Long id, ManagerPostCreateRequestDto request) throws IOException {
         return managerPostService.update(id, request);
     }
 

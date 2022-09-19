@@ -4,8 +4,6 @@ import bssm.major.club.ber.domain.category.post.domain.PostCategory;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.global.entity.BasePostEntity;
 import bssm.major.club.ber.domain.likes.domain.Likes;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,13 +33,16 @@ public class ManagerPost extends BasePostEntity {
 
     private int view = 1;
 
+    private String imgPath;
+    private String imgUrl;
+
     @OneToMany(mappedBy = "managerPost")
     private List<Likes> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "managerPost")
     private List<ManagerPostComment> managerPostComment = new ArrayList<>();
 
-    @OneToMany(mappedBy = "managerPost")
+    @OneToMany(mappedBy = "managerPost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostCategory> postCategories = new ArrayList<>();
 
     @Builder
@@ -56,6 +57,11 @@ public class ManagerPost extends BasePostEntity {
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void updateFile(String imgPath, String imgUrl) {
+        this.imgPath = imgPath;
+        this.imgUrl = imgUrl;
     }
 
     public void upView() {
@@ -74,4 +80,5 @@ public class ManagerPost extends BasePostEntity {
     public void addCategory(PostCategory category) {
         postCategories.add(category);
     }
+
 }
