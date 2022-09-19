@@ -67,7 +67,7 @@ public class TimetableService {
                 today -= 4;
         }
 
-        for (int grade = 1; grade <= 2; grade++) {
+        for (int grade = 1; grade <= 3; grade++) {
             for (int classNo = 1; classNo <= 4; classNo++) {
                 for (int d = today; d <= today + 4; d++) {
                     String apiUrl = basicUrl + "ALL_TI_YMD=" + d + "&" + "GRADE=" + grade + "&" + "CLASS_NM=" + classNo;
