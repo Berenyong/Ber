@@ -27,7 +27,7 @@ public class ManagerPostComment extends BasePostEntity {
     private String comment;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "manger_ost_id")
+    @JoinColumn(name = "manager_post_id")
     private ManagerPost managerPost;
 
     @ManyToOne(fetch = LAZY)
