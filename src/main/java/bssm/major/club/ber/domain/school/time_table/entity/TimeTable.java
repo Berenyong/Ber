@@ -29,13 +29,16 @@ public class TimeTable {
     @Column
     private String className;
 
+    @Column
+    private Long dayOfWeek;
+
     @Builder
-    public TimeTable(Long grade, Long classNo, Long day, Long idx, String className) {
+    public TimeTable(Long grade, Long classNo, Long day, Long idx, String className, Long dayOfWeek) {
         this.grade = grade;
         this.classNo = classNo;
         this.day = day;
         this.idx = idx;
         this.className = className;
+        this.dayOfWeek = dayOfWeek;
     }
-
 }

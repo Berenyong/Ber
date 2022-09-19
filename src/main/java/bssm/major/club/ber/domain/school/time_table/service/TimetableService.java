@@ -113,7 +113,13 @@ public class TimetableService {
                         subjects.add(stt.nextToken());
                     }
 
-                    System.out.println("subjects = " + subjects);
+                    int year2 = d / 10000;
+                    int month2 = (d % 10000) / 100;
+                    int day2 = (d % 10000) % 100;
+
+                    LocalDate localDate = LocalDate.of(year2, month2, day2);
+                    int dayOfWeeks = localDate.getDayOfWeek().getValue();
+
                     int cnt = 1;
                     for (String classname : subjects) {
                         TimeTable timeTable = new TimeTable().builder()
@@ -122,6 +128,7 @@ public class TimetableService {
                                 .day((long) d)
                                 .grade((long) grade)
                                 .idx((long) cnt)
+                                .dayOfWeek((long) dayOfWeeks)
                                 .build();
                         timeTableRepository.save(timeTable);
                         cnt++;
