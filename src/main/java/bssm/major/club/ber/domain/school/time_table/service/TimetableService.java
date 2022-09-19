@@ -48,7 +48,7 @@ public class TimetableService {
     }
 
 
-//    @Scheduled(cron = "0 4 * * * *") // 매일 새벽 4시 실행
+    @Scheduled(cron = "0 4 * * * *") // 매일 새벽 4시 실행
     public void updateTimetable() throws IOException {
         timeTableRepository.deleteAll();
 
@@ -56,11 +56,6 @@ public class TimetableService {
         int month = LocalDate.now().getMonthValue();
         int day = LocalDate.now().getDayOfMonth();
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
-
-        System.out.println("year = " + year); // 2022
-        System.out.println("month = " + month); // 09
-        System.out.println("day = " + day); // 19
-        System.out.println("dayOfWeek = " + dayOfWeek); // 1
 
         StringBuilder date = new StringBuilder();
         date.append(year).append(0).append(month).append(day);
@@ -122,6 +117,9 @@ public class TimetableService {
 
                     int cnt = 1;
                     for (String classname : subjects) {
+                        StringTokenizer st2 = new StringTokenizer(classname, "\"");
+                        classname = st2.nextToken();
+
                         TimeTable timeTable = new TimeTable().builder()
                                 .className(classname)
                                 .classNo((long) classNo)
