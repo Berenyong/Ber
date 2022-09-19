@@ -1,4 +1,4 @@
-package bssm.major.club.ber.domain.school.entity;
+package bssm.major.club.ber.domain.school.time_table.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
