@@ -9,8 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -60,6 +62,14 @@ public class ManagerPostApiController {
     @PutMapping("/update/{id}")
     public ManagerPostResponseDto update(@PathVariable Long id, @RequestBody @Valid ManagerPostCreateRequestDto request) {
         return managerPostService.update(id, request);
+    }
+
+    @PostMapping("/upload/{id}")
+    public void uploadImg(
+            @PathVariable Long id,
+            @RequestParam("data") MultipartFile multipartFile
+    ) throws IOException {
+        managerPostService.uploadImg(id, multipartFile);
     }
 
     @DeleteMapping("/delete/{id}")

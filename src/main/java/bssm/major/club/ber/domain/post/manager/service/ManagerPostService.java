@@ -15,7 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -30,6 +32,7 @@ public class ManagerPostService {
     private final UserRepository userRepository;
     private final ManagerPostRepository managerPostRepository;
     private final PostCategoryService postCategoryService;
+    private final PostImgService postImgService;
 
 
     @Transactional
@@ -100,6 +103,13 @@ public class ManagerPostService {
         managerPostRepository.delete(managerPosts);
 
         return "정상적으로 삭제되었습니다.";
+    }
+
+    @Transactional
+    public void uploadImg(Long id, MultipartFile multipartFile) throws IOException {
+        ManagerPost managerPost = managerPostRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+        postImgService.updatePostImg(managerPost, multipartFile);
     }
 
 }
