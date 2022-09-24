@@ -24,6 +24,7 @@ public class PostImg extends BaseTimeEntity {
     private String imgUrl;
 
     @ManyToOne(fetch = LAZY)
+    @JsonIgnore
     @JoinColumn(name = "manager_post_id")
     private ManagerPost managerPost;
 

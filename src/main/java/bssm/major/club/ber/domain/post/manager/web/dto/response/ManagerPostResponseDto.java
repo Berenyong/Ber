@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ public class ManagerPostResponseDto {
     private final List<ManagerPostCommentResponseDto> managerPostComments;
     private final String createMinutesAgo;
     private final List<PostCategoryResponseDto> postCategories;
+    private final List<PostImgResponseDto> imgs;
 
     public ManagerPostResponseDto(ManagerPost managerPost) {
         this.id = managerPost.getId();
@@ -38,6 +40,9 @@ public class ManagerPostResponseDto {
         this.createMinutesAgo = ChronoUnit.MINUTES.between(managerPost.getCreatedAt(), LocalDateTime.now()) + "분전";
         this.postCategories = managerPost.getPostCategories().stream()
                 .map(PostCategoryResponseDto::new)
+                .collect(Collectors.toList());
+        this.imgs = managerPost.getPostImgs().stream()
+                .map(PostImgResponseDto::new)
                 .collect(Collectors.toList());
     }
 
