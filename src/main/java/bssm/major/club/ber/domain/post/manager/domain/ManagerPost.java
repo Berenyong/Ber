@@ -20,7 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "MANAGER_POST")
+@Table(name = "manager_post")
 @Entity
 public class ManagerPost extends BasePostEntity {
 
@@ -44,13 +44,19 @@ public class ManagerPost extends BasePostEntity {
     @OneToMany(mappedBy = "managerPost")
     private List<PostCategory> postCategories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "managerPost")
+    private List<PostImg> postImgs = new ArrayList<>();
+
     @Builder
-    public ManagerPost(String title, String content, User writer, int view, List<Likes> likes) {
+    public ManagerPost(String title, String content, User writer, int view, List<Likes> likes, List<ManagerPostComment> managerPostComment, List<PostCategory> postCategories, List<PostImg> postImgs) {
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.view = view;
         this.likes = likes;
+        this.managerPostComment = managerPostComment;
+        this.postCategories = postCategories;
+        this.postImgs = postImgs;
     }
 
     public void update(String title, String content) {
