@@ -51,7 +51,7 @@ public class UserApiController {
     }
 
     @PutMapping("/update/img")
-    public void updateUserProfileImage(@RequestParam MultipartFile multipartFile) throws IOException {
+    public void updateUserProfileImage(@RequestParam("data") MultipartFile multipartFile) throws IOException {
         userService.updateImg(multipartFile);
     }
 

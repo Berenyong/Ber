@@ -18,7 +18,6 @@ public class AuthApiController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
     public TokenResponseDto login(@RequestBody @Valid LoginRequestDto request) {
         return authService.login(request);
     }

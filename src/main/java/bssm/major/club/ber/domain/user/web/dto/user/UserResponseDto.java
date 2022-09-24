@@ -17,6 +17,7 @@ public class UserResponseDto {
     private final String role;
     private final String gitLink;
     private final String blogLink;
+    private final String img;
     private final int warning;
     private final List<ManagerPostResponseDto> managerPosts;
     private final List<UserCategory> userCategories;
@@ -28,6 +29,7 @@ public class UserResponseDto {
         this.role = user.getRole().name();
         this.gitLink = user.getGitLink();
         this.blogLink = user.getBlogLink();
+        this.img = user.getImgUrl();
         this.warning = user.getWarning();
         this.managerPosts = user.getManagerPost().stream()
                 .map(ManagerPostResponseDto::new)
