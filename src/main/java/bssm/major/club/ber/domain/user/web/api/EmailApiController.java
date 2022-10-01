@@ -4,7 +4,7 @@ import bssm.major.club.ber.domain.user.service.EmailService;
 import bssm.major.club.ber.domain.user.service.UserService;
 import bssm.major.club.ber.domain.user.web.dto.email.EmailCodeCheckRequestDto;
 import bssm.major.club.ber.domain.user.web.dto.email.EmailDto;
-import bssm.major.club.ber.global.config.security.SecurityUtil;
+import bssm.major.club.ber.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

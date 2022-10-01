@@ -11,7 +11,7 @@ import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostReComm
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostCommentResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
-import bssm.major.club.ber.global.config.security.SecurityUtil;
+import bssm.major.club.ber.global.util.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package bssm.major.club.ber.global.config.security;
+package bssm.major.club.ber.global.util;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

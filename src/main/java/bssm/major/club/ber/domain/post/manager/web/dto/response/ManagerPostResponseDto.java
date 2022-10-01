@@ -1,13 +1,11 @@
 package bssm.major.club.ber.domain.post.manager.web.dto.response;
 
-import bssm.major.club.ber.domain.category.post.domain.PostCategory;
 import bssm.major.club.ber.domain.category.post.dto.response.PostCategoryResponseDto;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

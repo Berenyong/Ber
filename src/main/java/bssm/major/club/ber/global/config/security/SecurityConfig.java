@@ -62,10 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/manager/comment/all/**").permitAll()
 
                 .antMatchers("/manager/**")
-                .access("hasRole('MANAGER') or hasRole('ADMIN')")
+                .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 
                 .antMatchers("/admin/**")
-                .access("hasRole('MANAGER') or hasRole('ADMIN')")
+                .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailService, jwtValidateService),

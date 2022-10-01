@@ -5,7 +5,8 @@ import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.domain.user.web.dto.auth.LoginRequestDto;
 import bssm.major.club.ber.domain.user.web.dto.auth.TokenResponseDto;
 import bssm.major.club.ber.global.config.redis.RedisService;
-import bssm.major.club.ber.global.config.security.SecurityUtil;
+import bssm.major.club.ber.global.util.CookieUtil;
+import bssm.major.club.ber.global.util.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import bssm.major.club.ber.global.jwt.JwtTokenProvider;
@@ -14,9 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.Cookie;
 
+import static bssm.major.club.ber.global.jwt.JwtProperties.ACCESS_TOKEN_VALID_TIME;
 import static bssm.major.club.ber.global.jwt.JwtProperties.REFRESH_TOKEN_VALID_TIME;
 
 @RequiredArgsConstructor
@@ -28,6 +29,7 @@ public class AuthService {
     private final JwtValidateService jwtValidateService;
     private final RedisService redisService;
     private final PasswordEncoder passwordEncoder;
+    private final CookieUtil cookieUtil;
 
     public TokenResponseDto login(LoginRequestDto request) {
         User user = userRepository.findByEmail(request.getEmail())
@@ -39,9 +41,11 @@ public class AuthService {
         final String refreshToken = jwtTokenProvider.createRefreshToken(request.getEmail(), user.getNickname());
         redisService.setDataExpire(request.getEmail(), refreshToken, REFRESH_TOKEN_VALID_TIME);
 
+        Cookie accessTokenCookie = cookieUtil.createCookie("ACCESS-TOKEN", accessToken, ACCESS_TOKEN_VALID_TIME);
+        Cookie refreshTokenCookie = cookieUtil.createCookie("REFRESH-TOKEN", accessToken, REFRESH_TOKEN_VALID_TIME);
         return TokenResponseDto.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .accessToken(accessTokenCookie)
+                .refreshToken(refreshTokenCookie)
                 .build();
     }
 
@@ -54,12 +58,12 @@ public class AuthService {
 
     public TokenResponseDto getNewAccessToken(String refreshToken) {
         jwtValidateService.validateToken(refreshToken);
-
         String nickname = jwtValidateService.getNickname(refreshToken);
 
+        String accessToken = jwtTokenProvider.createAccessToken(jwtValidateService.getEmail(refreshToken), nickname);
+        Cookie accessTokenCookie = cookieUtil.createCookie("ACCESS-TOKEN", accessToken, ACCESS_TOKEN_VALID_TIME);
         return TokenResponseDto.builder()
-                .accessToken(jwtTokenProvider.createAccessToken(
-                        jwtValidateService.getEmail(refreshToken), refreshToken))
+                .accessToken(accessTokenCookie)
                 .build();
     }
 }
