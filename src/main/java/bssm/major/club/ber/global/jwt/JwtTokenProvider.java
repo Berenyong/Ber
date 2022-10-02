@@ -71,7 +71,8 @@ public class JwtTokenProvider {
         long expiredAccessTokenTime = getExpiredTime(accessToken)
                 .getTime() - new Date().getTime();
 
-        redisService.setValues(blackListATPrefix + accessToken, email, Duration.ofMillis(expiredAccessTokenTime));
+        redisService.setValues(blackListATPrefix + accessToken, email,
+                Duration.ofMillis(expiredAccessTokenTime));
         redisService.deleteData(email);
 
         redisService.setBlackList(accessToken, "ACCESS-TOKEN", expiredAccessTokenTime);
