@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
@@ -18,8 +19,15 @@ public class AuthApiController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public TokenResponseDto login(@RequestBody @Valid LoginRequestDto request) {
-        return authService.login(request);
+    public TokenResponseDto login(
+            @RequestBody @Valid LoginRequestDto request,
+            HttpServletResponse res
+    ) {
+        TokenResponseDto tokenRes = authService.login(request);
+        res.addCookie(tokenRes.getAccessToken());
+        res.addCookie(tokenRes.getRefreshToken());
+
+        return tokenRes;
     }
 
     @DeleteMapping("/logout")

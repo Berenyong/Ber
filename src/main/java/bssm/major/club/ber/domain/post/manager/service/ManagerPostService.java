@@ -42,9 +42,12 @@ public class ManagerPostService {
 
         ManagerPost managerPost = managerPostRepository.save(request.toEntity());
         managerPost.confirmWriter(user);
+        log.error("실행됨");
 
         request.getCategories()
-                .forEach(c -> postCategoryService.createCategory(managerPost, c.getName()));
+                .forEach(c -> log.error(String.valueOf(c.getName())));
+
+        postCategoryService.createCategory(managerPost, request.getCategories());
 
         return managerPost.getId();
     }

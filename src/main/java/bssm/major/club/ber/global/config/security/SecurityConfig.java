@@ -31,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtValidateService jwtValidateService;
 
+    // Spring Security 에서는 기본적으로 2가지 클래스를 빈으로 등록해줘야한다.
+    // 1. UserDetailsService
+    // 2. PasswordEncoder
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

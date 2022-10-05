@@ -16,6 +16,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -35,16 +36,19 @@ public class ManagerPost extends BasePostEntity {
 
     private int view = 1;
 
-    @OneToMany(mappedBy = "managerPost")
+    // cascade = OneToMany -> ManyToOne
+    // Ex) ManyToOne 에 cascade 적용시
+    // 게시글 삭제시 유저 삭제
+    @OneToMany(mappedBy = "managerPost", cascade = ALL)
     private List<Likes> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "managerPost")
+    @OneToMany(mappedBy = "managerPost", cascade = ALL)
     private List<ManagerPostComment> managerPostComment = new ArrayList<>();
 
-    @OneToMany(mappedBy = "managerPost")
+    @OneToMany(mappedBy = "managerPost", cascade = ALL)
     private List<PostCategory> postCategories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "managerPost")
+    @OneToMany(mappedBy = "managerPost", cascade = ALL)
     private List<PostImg> postImgs = new ArrayList<>();
 
     @Builder
