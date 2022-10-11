@@ -60,8 +60,8 @@ public class ManagerPostApiController {
     }
 
     @PutMapping("/update/{id}")
-    public ManagerPostResponseDto update(@PathVariable Long id, @RequestBody @Valid ManagerPostCreateRequestDto request) {
-        return managerPostService.update(id, request);
+    public void update(@PathVariable Long id, @RequestBody @Valid ManagerPostCreateRequestDto request) {
+        managerPostService.update(id, request);
     }
 
     @PostMapping("/upload/{id}")
@@ -73,8 +73,8 @@ public class ManagerPostApiController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        return managerPostService.delete(id);
+    public void delete(@PathVariable Long id) {
+        managerPostService.delete(id);
     }
 
 }
