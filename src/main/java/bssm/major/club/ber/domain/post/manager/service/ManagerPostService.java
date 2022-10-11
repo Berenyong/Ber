@@ -41,39 +41,6 @@ public class ManagerPostService {
     }
 
     @Transactional
-    public ManagerPostResponseDto detail(Long id) {
-        ManagerPost managerPost = managerPostRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
-
-        managerPost.upView();
-        return new ManagerPostResponseDto(managerPost);
-    }
-
-    public List<ManagerPostResponseDto> findByTitle(String title, Pageable pageable) {
-        return managerPostRepository.findByTitle(title, pageable)
-                .stream()
-                .map(ManagerPostResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<ManagerPostResponseDto> popularPosts(Pageable pageable) {
-        return managerPostRepository.findAllByOrderByLikesDesc(pageable)
-                .stream()
-                // 최근 일주일 인기 게시글
-                .filter(p -> ChronoUnit.MINUTES.between(p.getCreatedAt(), LocalDateTime.now()) < 10080)
-                .map(ManagerPostResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    // 최근에 올라온 게시글 순서
-    public List<ManagerPostResponseDto> allPosts(Pageable pageable) {
-        return managerPostRepository.findAll(pageable)
-                .stream()
-                .map(ManagerPostResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional
     public ManagerPostResponseDto update(Long id, ManagerPostCreateRequestDto request) {
         ManagerPost managerPost = managerPostRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
