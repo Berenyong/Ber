@@ -22,7 +22,7 @@ public class ManagerPostResponseDto {
     private final int view;
 //    private final int likes;
 //    private final List<ManagerPostCommentResponseDto> managerPostComments;
-//    private final String createMinutesAgo;
+    private final String createMinutesAgo;
 //    private final List<PostCategoryResponseDto> postCategories;
 //    private final List<PostImgResponseDto> imgs;
 
@@ -36,7 +36,9 @@ public class ManagerPostResponseDto {
 //        this.managerPostComments = managerPost.getManagerPostComment().stream()
 //                .map(ManagerPostCommentResponseDto::new)
 //                .collect(Collectors.toList());
-//        this.createMinutesAgo = ChronoUnit.MINUTES.between(managerPost.getCreatedAt(), LocalDateTime.now()) + "분전";
+        this.createMinutesAgo = ChronoUnit.MINUTES.between(
+                managerPost.getCreatedAt(), LocalDateTime.now()
+        ) + "분전";
 //        this.postCategories = managerPost.getPostCategories().stream()
 //                .map(PostCategoryResponseDto::new)
 //                .collect(Collectors.toList());

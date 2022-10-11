@@ -1,5 +1,1 @@
-�22:52:40.349 [Test worker] WARN bssm.major.club.ber.domain.post.manager.service.ManagerPostService - Title to ManagerPost : 게시글 제목
-,managerPost.getContent() = 게시글 내용
-$res.getContent() = 게시글 내용
-Gres.getWriter() = bssm.major.club.ber.domain.user.domain.User@11e33bac
-.managerPost.getWriter().getNickname() = nyong
+�00:10:03.657 [Test worker] WARN bssm.major.club.ber.domain.post.manager.service.ManagerPostService - Title to ManagerPost : 게시글 제목

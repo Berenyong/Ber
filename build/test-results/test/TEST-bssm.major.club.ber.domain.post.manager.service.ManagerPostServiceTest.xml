@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Post Service" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-10-11T13:52:39" hostname="choewon-yong-ui-MacBookPro.local" time="1.173">
+<testsuite name="Post Service" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-10-11T15:10:02" hostname="choewon-yong-ui-MacBookPro.local" time="1.073">
   <properties/>
-  <testcase name="게시글 상세 조회" classname="bssm.major.club.ber.domain.post.manager.service.ManagerPostServiceTest" time="1.127"/>
-  <testcase name="게시글 생성" classname="bssm.major.club.ber.domain.post.manager.service.ManagerPostServiceTest" time="0.041"/>
-  <system-out><![CDATA[22:52:40.349 [Test worker] WARN bssm.major.club.ber.domain.post.manager.service.ManagerPostService - Title to ManagerPost : 게시글 제목
-managerPost.getContent() = 게시글 내용
-res.getContent() = 게시글 내용
-res.getWriter() = bssm.major.club.ber.domain.user.domain.User@11e33bac
-managerPost.getWriter().getNickname() = nyong
+  <testcase name="게시글 상세 조회" classname="bssm.major.club.ber.domain.post.manager.service.ManagerPostServiceTest" time="1.05"/>
+  <testcase name="게시글 생성" classname="bssm.major.club.ber.domain.post.manager.service.ManagerPostServiceTest" time="0.021"/>
+  <system-out><![CDATA[00:10:03.657 [Test worker] WARN bssm.major.club.ber.domain.post.manager.service.ManagerPostService - Title to ManagerPost : 게시글 제목
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

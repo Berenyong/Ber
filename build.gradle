@@ -23,6 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.testng:testng:7.1.0'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -37,19 +38,6 @@ dependencies {
 	// S3
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-	// open api json parser
-	//==
-	// basic = https://open.neis.go.kr/hub/hisTimetable?
-	// KEY=3271c51fc69742b9bfe89a908d5497a2&
-	// Type=json&
-	// ATPT_OFCDC_SC_CODE=C10&
-	// SD_SCHUL_CODE=7150658&
-	// ALL_TI_YMD=20220914&
-	// GRADE=2&
-	// CLASS_NM=2
-	//
-	// https://open.neis.go.kr/hub/hisTimetable?KEY=3271c51fc69742b9bfe89a908d5497a2&Type=json&ATPT_OFCDC_SC_CODE=C10&SD_SCHUL_CODE=7150658&ALL_TI_YMD=20220913&GRADE=2&CLASS_NM=2
-	// ==//
 	implementation 'com.squareup.okhttp3:okhttp'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
