@@ -7,7 +7,7 @@ import bssm.major.club.ber.domain.ber.web.dto.request.BerReservationRequestDto;
 import bssm.major.club.ber.domain.ber.web.dto.response.*;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
-import bssm.major.club.ber.global.util.SecurityUtil;
+import bssm.major.club.ber.domain.user.facade.UserFacade;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 public class BerService {
 
     private final UserRepository userRepository;
+    private final UserFacade userFacade;
     private final BerRepository berRepository;
 
     @Transactional
     public BerReservationResponseDto createReservation(BerReservationRequestDto request) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+        User user = userFacade.getCurrentUser();
 
         Ber ber = berRepository.save(request.toEntity());
         ber.confirmUser(user);
@@ -99,8 +99,7 @@ public class BerService {
     }
 
     public List<BerReservationResponseDto> myReservation() {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+        User user = userFacade.getCurrentUser();
 
         return berRepository.findAll().stream()
                 .filter(b -> b.getUser().equals(user))
@@ -109,8 +108,7 @@ public class BerService {
     }
 
     public List<BerConfirmReservationResponseDto> myReservationStatus() {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+        User user = userFacade.getCurrentUser();
 
         return berRepository.findAll().stream()
                 .filter(b -> b.getUser().equals(user))
@@ -141,9 +139,6 @@ public class BerService {
 
     @Transactional
     public void cancelReservation(Long id) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
-
         Ber ber = berRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
 

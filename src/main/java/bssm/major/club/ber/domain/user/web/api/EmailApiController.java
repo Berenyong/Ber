@@ -1,5 +1,6 @@
 package bssm.major.club.ber.domain.user.web.api;
 
+import bssm.major.club.ber.domain.user.facade.UserFacade;
 import bssm.major.club.ber.domain.user.service.EmailService;
 import bssm.major.club.ber.domain.user.service.UserService;
 import bssm.major.club.ber.domain.user.web.dto.email.EmailCodeCheckRequestDto;
@@ -20,6 +21,7 @@ public class EmailApiController {
 
     private final EmailService emailService;
     private final UserService userService;
+    private final UserFacade userFacade;
 
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.OK)
@@ -39,7 +41,7 @@ public class EmailApiController {
     @PostMapping("/delete")
     @ResponseStatus(HttpStatus.OK)
     public String confirmDeleteEmailSender() throws Exception {
-        String myAccount = SecurityUtil.getLoginUserEmail();
+        String myAccount = userFacade.getCurrentUser().getEmail();
         log.error(myAccount);
         emailService.sendWithdrawalMessage(myAccount);
         return "코드 발송 완료!\n" + myAccount + "에서 메일을 확인해주세요.";

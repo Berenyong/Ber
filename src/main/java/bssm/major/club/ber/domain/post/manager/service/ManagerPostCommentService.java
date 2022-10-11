@@ -10,8 +10,7 @@ import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCommen
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostReCommentCreateRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostCommentResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
-import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
-import bssm.major.club.ber.global.util.SecurityUtil;
+import bssm.major.club.ber.domain.user.facade.UserFacade;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +29,9 @@ import java.util.stream.Collectors;
 public class ManagerPostCommentService {
 
     private final ManagerPostCommentRepository managerPostCommentRepository;
-    private final UserRepository userRepository;
     private final ManagerPostRepository managerPostRepository;
     private final ManagerPostReCommentRepository managerPostReCommentRepository;
+    private final UserFacade userFacade;
 
     @Transactional
     public Long createComment(Long id, ManagerPostCommentRequestDto request) {
@@ -41,10 +40,7 @@ public class ManagerPostCommentService {
 
         ManagerPostComment managerPostComment = request.toEntity();
 
-        managerPostComment
-                .confirmWriter(userRepository
-                        .findByEmail(SecurityUtil.getLoginUserEmail())
-                        .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN)));
+        managerPostComment.confirmWriter(userFacade.getCurrentUser());
 
         managerPostComment
                 .confirmPost(managerPostRepository
@@ -67,8 +63,7 @@ public class ManagerPostCommentService {
 
         ManagerPostReComment managerPostReComment = managerPostReCommentRepository.save(request.toEntity());
 
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+        User user = userFacade.getCurrentUser();
 
         managerPostReComment.confirmParent(managerPostComment);
         managerPostReComment.confirmWriter(user);
@@ -88,7 +83,7 @@ public class ManagerPostCommentService {
         ManagerPostComment managerPostComment = managerPostCommentRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
-        if (!managerPostComment.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+        if (!managerPostComment.getWriter().equals(userFacade.getCurrentUser())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
         }
 
@@ -103,7 +98,7 @@ public class ManagerPostCommentService {
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENTS_NOT_FOUND));
 
         log.error(managerPostReComment.getWriter().getEmail());
-        if (!managerPostReComment.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+        if (!managerPostReComment.getWriter().equals(userFacade.getCurrentUser())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
         }
 

@@ -23,8 +23,8 @@ public class ManagerPostApiController {
     private final ManagerPostService managerPostService;
 
     @PostMapping("/create")
-    public Long create(@RequestBody ManagerPostCreateRequestDto request) {
-        return managerPostService.createPost(request);
+    public void create(@RequestBody ManagerPostCreateRequestDto request) {
+        managerPostService.createPost(request);
     }
 
     @GetMapping("/find/detail/{id}")

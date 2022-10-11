@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Post Service" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-10-11T11:20:22" hostname="choewon-yong-ui-MacBookPro.local" time="1.07">
+  <properties/>
+  <testcase name="게시글 생성" classname="bssm.major.club.ber.domain.post.manager.service.ManagerPostServiceTest" time="1.07"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

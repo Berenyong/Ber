@@ -2,6 +2,7 @@ package bssm.major.club.ber.domain.user.service;
 
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
+import bssm.major.club.ber.domain.user.facade.UserFacade;
 import bssm.major.club.ber.domain.user.web.dto.auth.LoginRequestDto;
 import bssm.major.club.ber.domain.user.web.dto.auth.TokenResponseDto;
 import bssm.major.club.ber.global.config.redis.RedisService;
@@ -25,6 +26,7 @@ import static bssm.major.club.ber.global.jwt.JwtProperties.REFRESH_TOKEN_VALID_T
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final UserFacade userFacade;
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtValidateService jwtValidateService;
     private final RedisService redisService;
@@ -50,8 +52,7 @@ public class AuthService {
     }
 
     public void logout(String accessToken) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+        User user = userFacade.getCurrentUser();
 
         jwtTokenProvider.logout(user.getEmail(), accessToken);
     }

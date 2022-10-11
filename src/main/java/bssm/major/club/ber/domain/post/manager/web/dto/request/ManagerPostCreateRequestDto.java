@@ -13,18 +13,14 @@ public class ManagerPostCreateRequestDto {
 
     private final String title;
     private final String content;
-    private final User writer;
-    private final List<PostCategory> categories;
 
     @Builder
-    public ManagerPostCreateRequestDto(String title, String content, User writer, List<PostCategory> categories) {
+    public ManagerPostCreateRequestDto(String title, String content) {
         this.title = title;
         this.content = content;
-        this.writer = writer;
-        this.categories = categories;
     }
 
-    public ManagerPost toEntity() {
+    public ManagerPost toEntity(User writer) {
         return ManagerPost.builder()
                 .title(title)
                 .content(content)
