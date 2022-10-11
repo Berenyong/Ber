@@ -24,4 +24,8 @@ public class BasePostEntity {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
+    public void updateCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }

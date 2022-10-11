@@ -2,6 +2,7 @@ package bssm.major.club.ber.domain.post.manager.service;
 
 import bssm.major.club.ber.domain.category.post.service.PostCategoryService;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.post.manager.facade.ManagerPostFacade;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCreateRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostResponseDto;
@@ -32,6 +33,7 @@ public class ManagerPostService {
     private final ManagerPostRepository managerPostRepository;
     private final PostCategoryService postCategoryService;
     private final PostImgService postImgService;
+    private final ManagerPostFacade managerPostFacade;
 
 
     @Transactional
@@ -47,6 +49,40 @@ public class ManagerPostService {
 
         managerPost.update(request.getTitle(), request.getContent());
         return new ManagerPostResponseDto(managerPost);
+    }
+
+    @Transactional
+    public ManagerPostResponseDto detail(Long id) {
+        ManagerPost managerPost = managerPostFacade.findById(id);
+
+        managerPost.upView();
+        log.warn("Title to ManagerPost : {}", managerPost.getTitle());
+
+        return new ManagerPostResponseDto(managerPost);
+    }
+
+    public List<ManagerPostResponseDto> findByTitle(String title, Pageable pageable) {
+        return managerPostRepository.findByTitle(title, pageable)
+                .stream()
+                .map(ManagerPostResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<ManagerPostResponseDto> popularPosts(Pageable pageable) {
+        return managerPostRepository.findAllByOrderByLikesDesc(pageable)
+                .stream()
+                // 최근 일주일 인기 게시글
+                .filter(p -> ChronoUnit.MINUTES.between(p.getCreatedAt(), LocalDateTime.now()) < 10080)
+                .map(ManagerPostResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    // 최근에 올라온 게시글 순서
+    public List<ManagerPostResponseDto> allPosts(Pageable pageable) {
+        return managerPostRepository.findAll(pageable)
+                .stream()
+                .map(ManagerPostResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional

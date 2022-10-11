@@ -2,11 +2,14 @@ package bssm.major.club.ber.domain.post.manager.service;
 
 import bssm.major.club.ber.domain.ber.domain.type.Gender;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.post.manager.facade.ManagerPostFacade;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCreateRequestDto;
+import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.type.Role;
 import bssm.major.club.ber.domain.user.facade.UserFacade;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +17,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.*;
@@ -25,17 +34,12 @@ import static org.mockito.BDDMockito.*;
 @ExtendWith(MockitoExtension.class)
 class ManagerPostServiceTest {
 
-    @InjectMocks
-    private ManagerPostService managerPostService;
-
-    @Mock
-    private UserFacade userFacade;
-
-    @Mock
-    private ManagerPostRepository managerPostRepository;
+    @InjectMocks private ManagerPostService managerPostService;
+    @Mock private UserFacade userFacade;
+    @Mock private ManagerPostFacade managerPostFacade;
+    @Mock private ManagerPostRepository managerPostRepository;
 
     User user = User.builder()
-            .id(1L)
             .email("rltgjqmduftlagl")
             .gender(Gender.MAN)
             .name("최OneDragon")
@@ -57,16 +61,13 @@ class ManagerPostServiceTest {
             .view(1010)
             .build();
 
-    @BeforeEach
-    public void stubbing() {
-        given(userFacade.getCurrentUser()).willReturn(user);
-        given(managerPostRepository.save(any(ManagerPost.class))).willReturn(managerPost);
-    }
-
     @DisplayName("게시글 생성")
     @Test
     void createManagerPost() {
         // given
+        given(managerPostRepository.save(any(ManagerPost.class))).willReturn(managerPost);
+        given(userFacade.getCurrentUser()).willReturn(user);
+
         ArgumentCaptor<ManagerPost> managerPostCaptor = ArgumentCaptor.forClass(ManagerPost.class);
 
         // when
@@ -87,5 +88,21 @@ class ManagerPostServiceTest {
         assertEquals(req.getContent(), post.getContent());
     }
 
+    @DisplayName("게시글 상세 조회")
+    @Test
+    void findByManagerPostOfDetails() {
+        // given
+        given(managerPostFacade.findById(managerPost.getId())).willReturn(managerPost);
+        managerPost.updateCreatedAt(LocalDateTime.now());
 
+        // when
+        ManagerPostResponseDto res = managerPostService.detail(managerPost.getId());
+
+        // then
+        verify(managerPostFacade, times(1)).findById(managerPost.getId());
+
+        assertEquals(res.getContent(), managerPost.getContent());
+        assertEquals(res.getTitle(), managerPost.getTitle());
+        assertEquals(res.getWriter().getNickname(), managerPost.getWriter().getNickname());
+    }
 }

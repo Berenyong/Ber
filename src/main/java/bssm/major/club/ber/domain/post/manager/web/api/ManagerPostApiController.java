@@ -1,6 +1,5 @@
 package bssm.major.club.ber.domain.post.manager.web.api;
 
-import bssm.major.club.ber.domain.post.manager.facade.ManagerPostFacade;
 import bssm.major.club.ber.domain.post.manager.service.ManagerPostService;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.PostTitleRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCreateRequestDto;
@@ -22,7 +21,6 @@ import java.util.List;
 public class ManagerPostApiController {
 
     private final ManagerPostService managerPostService;
-    private final ManagerPostFacade managerPostFacade;
 
     @PostMapping("/create")
     public void create(@RequestBody ManagerPostCreateRequestDto request) {
@@ -31,14 +29,14 @@ public class ManagerPostApiController {
 
     @GetMapping("/find/detail/{id}")
     public ManagerPostResponseDto detail(@PathVariable Long id) {
-        return managerPostFacade.detail(id);
+        return managerPostService.detail(id);
     }
 
     @GetMapping("/find/title")
     public Result<List<ManagerPostResponseDto>> findByTitle(@RequestBody @Valid PostTitleRequestDto request,
                                                             @PageableDefault(size = 9)
                               Pageable pageable) {
-        List<ManagerPostResponseDto> post = managerPostFacade.findByTitle(request.getTitle(), pageable);
+        List<ManagerPostResponseDto> post = managerPostService.findByTitle(request.getTitle(), pageable);
 
         return new Result<>(post.size(), post);
     }
@@ -47,7 +45,7 @@ public class ManagerPostApiController {
     public Result<List<ManagerPostResponseDto>> popularPosts(
             @PageableDefault(size = 9)
             Pageable pageable) {
-        List<ManagerPostResponseDto> managerPost = managerPostFacade.popularPosts(pageable);
+        List<ManagerPostResponseDto> managerPost = managerPostService.popularPosts(pageable);
 
         return new Result<>(managerPost.size(), managerPost);
     }
@@ -57,7 +55,7 @@ public class ManagerPostApiController {
             @PageableDefault(size = 9)
             Pageable pageable) {
 
-        List<ManagerPostResponseDto> response = managerPostFacade.allPosts(pageable);
+        List<ManagerPostResponseDto> response = managerPostService.allPosts(pageable);
         return new Result<>(response.size(), response);
     }
 
