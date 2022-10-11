@@ -6,6 +6,7 @@ import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostRespo
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,17 +18,14 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ManagerPostFacade {
 
     private final ManagerPostRepository managerPostRepository;
 
-    @Transactional
-    public ManagerPostResponseDto detail(Long id) {
-        ManagerPost managerPost = managerPostRepository.findById(id)
+    public ManagerPost findById(Long id) {
+        return managerPostRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
-
-        managerPost.upView();
-        return new ManagerPostResponseDto(managerPost);
     }
 
     public List<ManagerPostResponseDto> findByTitle(String title, Pageable pageable) {

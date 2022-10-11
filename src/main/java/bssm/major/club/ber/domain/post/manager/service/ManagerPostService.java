@@ -2,6 +2,7 @@ package bssm.major.club.ber.domain.post.manager.service;
 
 import bssm.major.club.ber.domain.category.post.service.PostCategoryService;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.post.manager.facade.ManagerPostFacade;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCreateRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostResponseDto;
@@ -11,16 +12,11 @@ import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -32,6 +28,7 @@ public class ManagerPostService {
     private final ManagerPostRepository managerPostRepository;
     private final PostCategoryService postCategoryService;
     private final PostImgService postImgService;
+    private final ManagerPostFacade managerPostFacade;
 
 
     @Transactional
@@ -46,6 +43,16 @@ public class ManagerPostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
         managerPost.update(request.getTitle(), request.getContent());
+        return new ManagerPostResponseDto(managerPost);
+    }
+
+    @Transactional
+    public ManagerPostResponseDto detail(Long id) {
+        ManagerPost managerPost = managerPostFacade.findById(id);
+
+        managerPost.upView();
+        log.warn("Title to ManagerPost : {}", managerPost.getTitle());
+
         return new ManagerPostResponseDto(managerPost);
     }
 

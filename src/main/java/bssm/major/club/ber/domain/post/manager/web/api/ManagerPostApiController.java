@@ -31,7 +31,7 @@ public class ManagerPostApiController {
 
     @GetMapping("/find/detail/{id}")
     public ManagerPostResponseDto detail(@PathVariable Long id) {
-        return managerPostFacade.detail(id);
+        return managerPostService.detail(id);
     }
 
     @GetMapping("/find/title")
