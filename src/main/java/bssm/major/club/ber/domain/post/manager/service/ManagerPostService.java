@@ -84,17 +84,14 @@ public class ManagerPostService {
     }
 
     @Transactional
-    public String delete(Long id) {
-        ManagerPost managerPosts = managerPostRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+    public void delete(Long id) {
+        ManagerPost managerPosts = managerPostFacade.findById(id);
 
         if (!managerPosts.getWriter().equals(userFacade.getCurrentUser())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
         }
 
         managerPostRepository.delete(managerPosts);
-
-        return "정상적으로 삭제되었습니다.";
     }
 
     @Transactional

@@ -73,8 +73,8 @@ public class ManagerPostApiController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        return managerPostService.delete(id);
+    public void delete(@PathVariable Long id) {
+        managerPostService.delete(id);
     }
 
 }

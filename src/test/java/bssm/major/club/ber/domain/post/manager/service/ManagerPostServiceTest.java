@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.*;
 
 @DisplayName("Post Service")
@@ -116,5 +117,19 @@ class ManagerPostServiceTest {
         // then
         assertEquals("게시글 제목111", managerPost.getTitle());
         assertEquals("게시글 내용222", managerPost.getContent());
+    }
+
+    @DisplayName("게시글 삭제")
+    @Test
+    void test() {
+        // given
+        given(userFacade.getCurrentUser()).willReturn(user);
+        given(managerPostFacade.findById(anyLong())).willReturn(managerPost);
+
+        // when
+        managerPostService.delete(1L);
+
+        // then
+        assertNull(managerPost.getTitle());
     }
 }
