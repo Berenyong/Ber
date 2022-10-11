@@ -6,8 +6,7 @@ import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCreateRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
-import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
-import bssm.major.club.ber.global.util.SecurityUtil;
+import bssm.major.club.ber.domain.user.facade.UserFacade;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -29,27 +28,16 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ManagerPostService {
 
-    private final UserRepository userRepository;
+    private final UserFacade userFacade;
     private final ManagerPostRepository managerPostRepository;
     private final PostCategoryService postCategoryService;
     private final PostImgService postImgService;
 
 
     @Transactional
-    public Long createPost(ManagerPostCreateRequestDto request) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
-
-        ManagerPost managerPost = managerPostRepository.save(request.toEntity());
-        managerPost.confirmWriter(user);
-        log.error("실행됨");
-
-        request.getCategories()
-                .forEach(c -> log.error(String.valueOf(c.getName())));
-
-        postCategoryService.createCategory(managerPost, request.getCategories());
-
-        return managerPost.getId();
+    public void createPost(ManagerPostCreateRequestDto request) {
+        ManagerPost manager = request.toEntity(userFacade.getCurrentUser());
+        managerPostRepository.save(manager);
     }
 
     @Transactional
@@ -99,7 +87,7 @@ public class ManagerPostService {
         ManagerPost managerPosts = managerPostRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
-        if (!managerPosts.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+        if (!managerPosts.getWriter().equals(userFacade.getCurrentUser())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
         }
 

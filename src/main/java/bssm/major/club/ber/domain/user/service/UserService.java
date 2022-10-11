@@ -3,6 +3,7 @@ package bssm.major.club.ber.domain.user.service;
 import bssm.major.club.ber.domain.category.user.service.UserCategoryService;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
+import bssm.major.club.ber.domain.user.facade.UserFacade;
 import bssm.major.club.ber.domain.user.web.dto.user.*;
 import bssm.major.club.ber.global.util.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserFacade userFacade;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final UserCategoryService userCategoryService;
@@ -75,8 +77,7 @@ public class UserService {
 
     @Transactional
     public UserResponseDto updateUser(UserUpdateRequestDto request) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+        User user = userFacade.getCurrentUser();
 
         user.updatePassword(passwordEncoder, request.getPassword());
         user.updateNickname(request.getNickname());
@@ -108,15 +109,11 @@ public class UserService {
 
     @Transactional
     public String deleteUser(UserDeleteRequestDto request) throws Exception{
-        if (SecurityUtil.getLoginUserEmail() == null) {
-            throw new CustomException(ErrorCode.USER_NOT_LOGIN);
-        }
-
         if (emailService.verifyCode(request.getCheckEmailCode())) {
             throw new CustomException(ErrorCode.NOT_MATCH_CODE);
         }
 
-        String myAccount = SecurityUtil.getLoginUserEmail();
+        String myAccount = userFacade.getCurrentUser().getEmail();
         userRepository.deleteByEmail(myAccount);
         
         return myAccount;
@@ -133,8 +130,7 @@ public class UserService {
 
     @Transactional
     public void updateImg(MultipartFile multipartFile) throws IOException {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+        User user = userFacade.getCurrentUser();
 
         FileResponseDto fileResponseDto = s3Uploader.saveFile(multipartFile);
         user.updateUserProfileImage(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());

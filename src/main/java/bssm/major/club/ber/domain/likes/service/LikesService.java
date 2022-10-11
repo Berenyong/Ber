@@ -6,6 +6,7 @@ import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
+import bssm.major.club.ber.domain.user.facade.UserFacade;
 import bssm.major.club.ber.global.util.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
@@ -24,12 +25,12 @@ public class LikesService {
 
     private final LikesRepository likesRepository;
     private final UserRepository userRepository;
+    private final UserFacade userFacade;
     private final ManagerPostRepository managerPostRepository;
 
     @Transactional
     public String mlikes(long postId) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
+        User user = userFacade.getCurrentUser();
 
         ManagerPost managerPost = managerPostRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
