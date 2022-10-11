@@ -6,8 +6,6 @@ import bssm.major.club.ber.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 public class ManagerPostCreateRequestDto {
 

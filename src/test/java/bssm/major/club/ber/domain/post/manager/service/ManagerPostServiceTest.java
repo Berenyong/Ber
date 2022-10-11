@@ -9,23 +9,16 @@ import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostRespo
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.type.Role;
 import bssm.major.club.ber.domain.user.facade.UserFacade;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.*;
@@ -104,5 +97,24 @@ class ManagerPostServiceTest {
         assertEquals(res.getContent(), managerPost.getContent());
         assertEquals(res.getTitle(), managerPost.getTitle());
         assertEquals(res.getWriter().getNickname(), managerPost.getWriter().getNickname());
+    }
+
+    @DisplayName("게시글 수정")
+    @Test
+    void updateManagerPost() {
+        // given
+        given(managerPostFacade.findById(managerPost.getId())).willReturn(managerPost);
+
+        // when
+        ManagerPostCreateRequestDto dto = ManagerPostCreateRequestDto.builder()
+                .title("게시글 제목111")
+                .content("게시글 내용222")
+                .build();
+
+        managerPostService.update(managerPost.getId(), dto);
+
+        // then
+        assertEquals("게시글 제목111", managerPost.getTitle());
+        assertEquals("게시글 내용222", managerPost.getContent());
     }
 }

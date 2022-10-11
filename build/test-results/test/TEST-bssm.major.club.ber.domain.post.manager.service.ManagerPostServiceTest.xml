@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Post Service" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-10-11T15:10:02" hostname="choewon-yong-ui-MacBookPro.local" time="1.073">
+<testsuite name="Post Service" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-10-11T15:31:05" hostname="choewon-yong-ui-MacBookPro.local" time="1.486">
   <properties/>
-  <testcase name="게시글 상세 조회" classname="bssm.major.club.ber.domain.post.manager.service.ManagerPostServiceTest" time="1.05"/>
-  <testcase name="게시글 생성" classname="bssm.major.club.ber.domain.post.manager.service.ManagerPostServiceTest" time="0.021"/>
-  <system-out><![CDATA[00:10:03.657 [Test worker] WARN bssm.major.club.ber.domain.post.manager.service.ManagerPostService - Title to ManagerPost : 게시글 제목
-]]></system-out>
+  <testcase name="게시글 수정" classname="bssm.major.club.ber.domain.post.manager.service.ManagerPostServiceTest" time="1.486"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
