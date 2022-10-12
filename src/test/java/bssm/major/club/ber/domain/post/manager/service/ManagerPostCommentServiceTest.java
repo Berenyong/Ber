@@ -107,5 +107,6 @@ class ManagerPostCommentServiceTest {
 //
 //        assertEquals(req.getComment(), createdPost.getComment());
 //        assertEquals(req.getManagerPost(), createdPost.getManagerPost());
-    }
+//    }
+
 }
