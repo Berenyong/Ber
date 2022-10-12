@@ -19,15 +19,16 @@ public class ManagerPostCommentApiController {
     private final ManagerPostCommentService managerPostCommentService;
 
     @PostMapping("/create/{id}")
-    public Long create(@PathVariable Long id, @RequestBody @Valid ManagerPostCommentRequestDto request) {
-        return managerPostCommentService.createComment(id, request);
+    public void create(@PathVariable Long id, @RequestBody @Valid ManagerPostCommentRequestDto request) {
+        managerPostCommentService.createComment(id, request);
     }
 
     @PostMapping("/create/{postId}/{commentId}")
-    public Long saveRe(@PathVariable("postId") Long postId,
-                       @PathVariable("commentId") Long commentId,
-                       @RequestBody ManagerPostReCommentCreateRequestDto request) {
-        return managerPostCommentService.createReComment(postId, commentId, request);
+    public void saveReComment(
+            @PathVariable("commentId") Long commentId,
+            @RequestBody ManagerPostReCommentCreateRequestDto request
+    ) {
+        managerPostCommentService.createReComment(commentId, request);
     }
 
     @GetMapping("/all/{id}")
@@ -37,13 +38,13 @@ public class ManagerPostCommentApiController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Long delete(@PathVariable Long id) {
-        return managerPostCommentService.delete(id);
+    public void delete(@PathVariable Long id) {
+        managerPostCommentService.deleteComment(id);
     }
 
     @DeleteMapping("/delete/re/{id}")
-    public Long deleteRe(@PathVariable Long id) {
-        return managerPostCommentService.deleteRe(id);
+    public void deleteRe(@PathVariable Long id) {
+        managerPostCommentService.deleteReComment(id);
     }
 
 }

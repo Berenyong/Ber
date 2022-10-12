@@ -3,9 +3,10 @@ package bssm.major.club.ber.domain.post.manager.service;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
 import bssm.major.club.ber.domain.post.manager.domain.ManagerPostReComment;
+import bssm.major.club.ber.domain.post.manager.facade.ManagerPostFacade;
+import bssm.major.club.ber.domain.post.manager.facade.MangerPostCommentFacade;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostCommentRepository;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostReCommentRepository;
-import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCommentRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostReCommentCreateRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostCommentResponseDto;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -29,37 +29,25 @@ import java.util.stream.Collectors;
 public class ManagerPostCommentService {
 
     private final ManagerPostCommentRepository managerPostCommentRepository;
-    private final ManagerPostRepository managerPostRepository;
     private final ManagerPostReCommentRepository managerPostReCommentRepository;
     private final UserFacade userFacade;
+    private final ManagerPostFacade managerPostFacade;
+    private final MangerPostCommentFacade managerPostCommentFacade;
 
     @Transactional
-    public Long createComment(Long id, ManagerPostCommentRequestDto request) {
-        Optional<ManagerPost> byId = Optional.of(managerPostRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND)));
-
+    public void createComment(Long postId, ManagerPostCommentRequestDto request) {
+        ManagerPost managerPost = managerPostFacade.findById(postId);
         ManagerPostComment managerPostComment = request.toEntity();
 
         managerPostComment.confirmWriter(userFacade.getCurrentUser());
-
-        managerPostComment
-                .confirmPost(managerPostRepository
-                        .findById(id)
-                        .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND)));
+        managerPostComment.confirmPost(managerPost);
 
         managerPostCommentRepository.save(managerPostComment);
-
-        return managerPostComment.getId();
     }
 
     @Transactional
-    public Long createReComment(Long postId, Long commentId, ManagerPostReCommentCreateRequestDto request) {
-
-        ManagerPost managerPost = managerPostRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
-
-        ManagerPostComment managerPostComment = managerPostCommentRepository.findById(commentId)
-                .orElseThrow(() -> new CustomException(ErrorCode.COMMENTS_NOT_FOUND));
+    public void createReComment(Long commentId, ManagerPostReCommentCreateRequestDto request) {
+        ManagerPostComment managerPostComment = managerPostCommentFacade.findCommentById(commentId);
 
         ManagerPostReComment managerPostReComment = managerPostReCommentRepository.save(request.toEntity());
 
@@ -68,8 +56,6 @@ public class ManagerPostCommentService {
         managerPostReComment.confirmParent(managerPostComment);
         managerPostReComment.confirmWriter(user);
         managerPostReComment.setWriterName(user.getNickname());
-
-        return managerPostReComment.getId();
     }
 
     public List<ManagerPostCommentResponseDto> findAllDesc(Long id) {
@@ -79,31 +65,24 @@ public class ManagerPostCommentService {
                 .collect(Collectors.toList());
     }
 
-    public Long delete(Long id) {
-        ManagerPostComment managerPostComment = managerPostCommentRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+    public void deleteComment(Long id) {
+        ManagerPostComment managerPostComment = managerPostCommentFacade.findCommentById(id);
 
         if (!managerPostComment.getWriter().equals(userFacade.getCurrentUser())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
         }
 
         managerPostCommentRepository.delete(managerPostComment);
-
-        return id;
     }
 
     @Transactional
-    public Long deleteRe(Long id) {
-        ManagerPostReComment managerPostReComment = managerPostReCommentRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.COMMENTS_NOT_FOUND));
+    public void deleteReComment(Long reCommentId) {
+        ManagerPostReComment managerPostReComment = managerPostCommentFacade.findReById(reCommentId);
 
-        log.error(managerPostReComment.getWriter().getEmail());
         if (!managerPostReComment.getWriter().equals(userFacade.getCurrentUser())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
         }
 
         managerPostReCommentRepository.delete(managerPostReComment);
-
-        return id;
     }
 }

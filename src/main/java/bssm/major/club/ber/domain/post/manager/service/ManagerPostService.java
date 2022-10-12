@@ -38,8 +38,7 @@ public class ManagerPostService {
 
     @Transactional
     public void createPost(ManagerPostCreateRequestDto request) {
-        ManagerPost manager = request.toEntity(userFacade.getCurrentUser());
-        managerPostRepository.save(manager);
+        managerPostRepository.save(request.toEntity(userFacade.getCurrentUser()));
     }
 
     @Transactional
