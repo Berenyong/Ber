@@ -28,4 +28,8 @@ public class BasePostEntity {
         this.createdAt = createdAt;
     }
 
+    public void updatePkForTest(Long id) {
+        this.id = id;
+    }
+
 }

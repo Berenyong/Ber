@@ -7,7 +7,6 @@ import bssm.major.club.ber.domain.post.manager.facade.ManagerPostFacade;
 import bssm.major.club.ber.domain.post.manager.facade.MangerPostCommentFacade;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostCommentRepository;
 import bssm.major.club.ber.domain.post.manager.repository.ManagerPostReCommentRepository;
-import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostCommentRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.request.ManagerPostReCommentCreateRequestDto;
 import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostCommentResponseDto;
@@ -30,15 +29,14 @@ import java.util.stream.Collectors;
 public class ManagerPostCommentService {
 
     private final ManagerPostCommentRepository managerPostCommentRepository;
-    private final ManagerPostRepository managerPostRepository;
     private final ManagerPostReCommentRepository managerPostReCommentRepository;
     private final UserFacade userFacade;
     private final ManagerPostFacade managerPostFacade;
     private final MangerPostCommentFacade managerPostCommentFacade;
 
     @Transactional
-    public void createComment(Long id, ManagerPostCommentRequestDto request) {
-        ManagerPost managerPost = managerPostFacade.findById(id);
+    public void createComment(Long postId, ManagerPostCommentRequestDto request) {
+        ManagerPost managerPost = managerPostFacade.findById(postId);
         ManagerPostComment managerPostComment = request.toEntity();
 
         managerPostComment.confirmWriter(userFacade.getCurrentUser());

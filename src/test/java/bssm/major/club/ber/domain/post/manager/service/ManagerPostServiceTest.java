@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.*;
 
-@DisplayName("Post Service")
+@DisplayName("관리자 게시글 서비스")
 @ExtendWith(MockitoExtension.class)
 class ManagerPostServiceTest {
 
