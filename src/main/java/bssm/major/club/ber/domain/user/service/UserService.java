@@ -44,10 +44,6 @@ public class UserService {
             throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
         }
 
-        if (emailService.verifyCode(request.getCheckEmailCode())) {
-            throw new CustomException(ErrorCode.NOT_MATCH_CODE);
-        }
-
         User user = userRepository.save(request.toEntity());
         user.encodePassword(passwordEncoder);
         user.addUserAuthority();
@@ -137,6 +133,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public UserResponseDto findCurrentUser() {
         return new UserResponseDto(userFacade.getCurrentUser());
     }

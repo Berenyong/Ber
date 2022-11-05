@@ -2,13 +2,10 @@ package bssm.major.club.ber.domain.category.post.service;
 
 import bssm.major.club.ber.domain.category.post.domain.PostCategory;
 import bssm.major.club.ber.domain.category.post.repository.PostCategoryRepository;
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.manager_post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.domain.user.facade.UserFacade;
-import bssm.major.club.ber.global.util.SecurityUtil;
-import bssm.major.club.ber.global.exception.CustomException;
-import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

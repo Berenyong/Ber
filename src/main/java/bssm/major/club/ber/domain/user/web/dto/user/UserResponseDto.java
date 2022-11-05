@@ -1,7 +1,6 @@
 package bssm.major.club.ber.domain.user.web.dto.user;
 
-import bssm.major.club.ber.domain.category.user.domain.UserCategory;
-import bssm.major.club.ber.domain.post.manager.web.dto.response.ManagerPostResponseDto;
+import bssm.major.club.ber.domain.manager_post.manager.web.dto.response.ManagerPostResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import lombok.Getter;
 
@@ -19,8 +18,11 @@ public class UserResponseDto {
     private final String blogLink;
     private final String img;
     private final int warning;
-    private final List<ManagerPostResponseDto> managerPosts;
-    private final List<UserCategory> userCategories;
+    private final String gender;
+    private final Integer classNumber;
+    private final String statusMessage;
+//    private final List<ManagerPostResponseDto> managerPosts;
+//    private final List<UserCategory> userCategories;
 
     public UserResponseDto(User user) {
         this.id = user.getId();
@@ -29,11 +31,15 @@ public class UserResponseDto {
         this.role = user.getRole().name();
         this.gitLink = user.getGitLink();
         this.blogLink = user.getBlogLink();
+        this.gender = user.getGender().name();
+        this.classNumber = user.getClassNumber();
+        this.statusMessage = user.getStatusMessage();
         this.img = user.getImgUrl();
         this.warning = user.getWarning();
-        this.managerPosts = user.getManagerPost().stream()
-                .map(ManagerPostResponseDto::new)
-                .collect(Collectors.toList());
-        this.userCategories = user.getCategories();
+//        this.managerPosts = user.getManagerPost().stream()
+//                .map(ManagerPostResponseDto::new)
+//                .collect(Collectors.toList());
+
+//        this.userCategories = user.getCategories();
     }
 }

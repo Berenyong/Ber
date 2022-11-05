@@ -36,7 +36,6 @@ public class AuthApiController {
     }
 
     @PutMapping("/refresh")
-    @ResponseStatus(HttpStatus.OK)
     public TokenResponseDto getNewAccessToken(@RequestHeader(value = "REFRESH-TOKEN") String refreshToken) {
         return authService.getNewAccessToken(refreshToken);
     }

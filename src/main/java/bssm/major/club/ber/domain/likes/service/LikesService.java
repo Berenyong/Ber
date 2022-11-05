@@ -2,12 +2,11 @@ package bssm.major.club.ber.domain.likes.service;
 
 import bssm.major.club.ber.domain.likes.domain.Likes;
 import bssm.major.club.ber.domain.likes.repository.LikesRepository;
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
-import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
+import bssm.major.club.ber.domain.manager_post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.manager_post.manager.repository.ManagerPostRepository;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.domain.user.facade.UserFacade;
-import bssm.major.club.ber.global.util.SecurityUtil;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;

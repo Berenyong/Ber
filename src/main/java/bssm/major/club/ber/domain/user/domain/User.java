@@ -4,9 +4,10 @@ import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.type.Gender;
 import bssm.major.club.ber.domain.category.post.domain.PostCategory;
 import bssm.major.club.ber.domain.category.user.domain.UserCategory;
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPostReComment;
+import bssm.major.club.ber.domain.post.domain.Post;
+import bssm.major.club.ber.domain.manager_post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.manager_post.manager.domain.ManagerPostComment;
+import bssm.major.club.ber.domain.manager_post.manager.domain.ManagerPostReComment;
 import bssm.major.club.ber.domain.user.domain.type.Role;
 import bssm.major.club.ber.domain.likes.domain.Likes;
 import bssm.major.club.ber.global.exception.CustomException;
@@ -20,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.*;
@@ -84,25 +84,28 @@ public class User extends BaseTimeEntity {
     }
 
     @OneToMany(mappedBy = "user", cascade = ALL)
-    private List<Likes> likes = new ArrayList<>();
+    private List<Likes> likes;
 
     @OneToMany(mappedBy = "writer", cascade = ALL)
-    private List<ManagerPost> managerPost = new ArrayList<>();
+    private List<Post> posts;
 
     @OneToMany(mappedBy = "writer", cascade = ALL)
-    private List<ManagerPostComment> managerPostComments = new ArrayList<>();
+    private List<ManagerPost> managerPost;
 
     @OneToMany(mappedBy = "writer", cascade = ALL)
-    private List<ManagerPostReComment> managerPostReComments = new ArrayList<>();
+    private List<ManagerPostComment> managerPostComments;
+
+    @OneToMany(mappedBy = "writer", cascade = ALL)
+    private List<ManagerPostReComment> managerPostReComments;
 
     @OneToMany(mappedBy = "user", cascade = ALL)
-    private List<Ber> ber = new ArrayList<>();
+    private List<Ber> ber;
 
     @OneToMany(mappedBy = "user")
-    private List<UserCategory> categories = new ArrayList<>();
+    private List<UserCategory> categories;
 
     @OneToMany(mappedBy = "user")
-    private List<PostCategory> postCategories = new ArrayList<>();
+    private List<PostCategory> postCategories;
 
     @Builder
     public User(Long id, String name, int classNumber, String email, String nickname, int age, String password, Role role, Gender gender, String gitLink, String blogLink, int warning, LocalDate disciplinePeriod) {
@@ -205,4 +208,5 @@ public class User extends BaseTimeEntity {
     public void addPostCategories(PostCategory postCategory) {
         this.postCategories.add(postCategory);
     }
+
 }

@@ -1,6 +1,6 @@
 package bssm.major.club.ber.domain.category.post.domain;
 
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
+import bssm.major.club.ber.domain.manager_post.manager.domain.ManagerPost;
 import bssm.major.club.ber.domain.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
