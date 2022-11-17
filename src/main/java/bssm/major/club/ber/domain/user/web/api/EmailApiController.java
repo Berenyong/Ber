@@ -24,14 +24,12 @@ public class EmailApiController {
     private final UserFacade userFacade;
 
     @PostMapping("/join")
-    @ResponseStatus(HttpStatus.OK)
     public String emailConfirm(@RequestBody @Valid EmailDto request) throws Exception{
         emailService.sendSimpleMessage(request.getEmail());
         return "코드 발송 완료!\n" + request.getEmail() + "에서 메일을 확인해주세요.";
     }
 
     @PostMapping("/password")
-    @ResponseStatus(HttpStatus.OK)
     public String confirmForgetPasswordEmailSender(@RequestBody @Valid EmailDto request) throws Exception {
         emailService.sendForgetPassword(request.getEmail());
         userService.setEmail(request.getEmail());
@@ -39,7 +37,6 @@ public class EmailApiController {
     }
 
     @PostMapping("/delete")
-    @ResponseStatus(HttpStatus.OK)
     public String confirmDeleteEmailSender() throws Exception {
         String myAccount = userFacade.getCurrentUser().getEmail();
         log.error(myAccount);
@@ -48,7 +45,6 @@ public class EmailApiController {
     }
 
     @PostMapping("/checkedCode")
-    @ResponseStatus(HttpStatus.OK)
     public boolean checkedCode(@RequestBody @Valid EmailCodeCheckRequestDto request) {
         // return true: 다음 화면
         return emailService.confirmCode(request.getCode());
