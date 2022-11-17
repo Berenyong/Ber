@@ -97,7 +97,7 @@ class ManagerPostServiceTest {
 
         assertEquals(res.getContent(), managerPost.getContent());
         assertEquals(res.getTitle(), managerPost.getTitle());
-        assertEquals(res.getWriter().getNickname(), managerPost.getWriter().getNickname());
+        assertEquals(res.getWriter(), managerPost.getWriter().getNickname());
     }
 
     @DisplayName("게시글 수정")
