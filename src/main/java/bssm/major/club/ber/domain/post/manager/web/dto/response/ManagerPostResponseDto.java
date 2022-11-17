@@ -24,13 +24,13 @@ public class ManagerPostResponseDto {
 //    private final List<ManagerPostCommentResponseDto> managerPostComments;
     private final String createMinutesAgo;
 //    private final List<PostCategoryResponseDto> postCategories;
-//    private final List<PostImgResponseDto> imgs;
+    private final List<PostImgResponseDto> imgs;
 
     public ManagerPostResponseDto(ManagerPost managerPost) {
         this.id = managerPost.getId();
         this.title = managerPost.getTitle();
         this.content = managerPost.getContent();
-        this.writer = managerPost.getWriter().getName();
+        this.writer = managerPost.getWriter().getNickname();
         this.view = managerPost.getView();
 //        this.likes = managerPost.getLikes().size();
 //        this.managerPostComments = managerPost.getManagerPostComment().stream()
@@ -42,9 +42,8 @@ public class ManagerPostResponseDto {
 //        this.postCategories = managerPost.getPostCategories().stream()
 //                .map(PostCategoryResponseDto::new)
 //                .collect(Collectors.toList());
-//        this.imgs = managerPost.getPostImgs().stream()
-//                .map(PostImgResponseDto::new)
-//                .collect(Collectors.toList());
+        this.imgs = managerPost.getPostImgs().stream()
+                .map(PostImgResponseDto::new)
+                .collect(Collectors.toList());
     }
-
 }
