@@ -18,7 +18,7 @@ public class ManagerPostResponseDto {
     private final Long id;
     private final String title;
     private final String content;
-    private final User writer;
+    private final String writer;
     private final int view;
 //    private final int likes;
 //    private final List<ManagerPostCommentResponseDto> managerPostComments;
@@ -30,7 +30,7 @@ public class ManagerPostResponseDto {
         this.id = managerPost.getId();
         this.title = managerPost.getTitle();
         this.content = managerPost.getContent();
-        this.writer = managerPost.getWriter();
+        this.writer = managerPost.getWriter().getName();
         this.view = managerPost.getView();
 //        this.likes = managerPost.getLikes().size();
 //        this.managerPostComments = managerPost.getManagerPostComment().stream()
