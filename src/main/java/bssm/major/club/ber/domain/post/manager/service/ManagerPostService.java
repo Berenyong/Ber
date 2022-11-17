@@ -87,7 +87,7 @@ public class ManagerPostService {
     public void delete(Long id) {
         ManagerPost managerPosts = managerPostFacade.findById(id);
 
-        if (!managerPosts.getWriter().equals(userFacade.getCurrentUser())) {
+        if (!managerPosts.getWriter().getEmail().equals(userFacade.getCurrentUser().getEmail())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
         }
 
