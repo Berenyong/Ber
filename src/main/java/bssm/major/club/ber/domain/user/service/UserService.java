@@ -35,7 +35,7 @@ public class UserService {
     private String email;
 
     @Transactional
-    public UserResponseDto signup(UserJoinRequestDto request) throws Exception {
+    public UserResponseDto signup(UserJoinRequestDto request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_EXISTS_USER);
         }
@@ -108,7 +108,7 @@ public class UserService {
     }
 
     @Transactional
-    public String deleteUser(UserDeleteRequestDto request) throws Exception{
+    public String deleteUser(UserDeleteRequestDto request) {
         if (emailService.verifyCode(request.getCheckEmailCode())) {
             throw new CustomException(ErrorCode.NOT_MATCH_CODE);
         }
