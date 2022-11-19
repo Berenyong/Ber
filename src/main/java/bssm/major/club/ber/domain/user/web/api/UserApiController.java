@@ -19,6 +19,11 @@ public class UserApiController {
 
     private final UserService userService;
 
+    @GetMapping
+    public UserResponseDto getMyInfo() {
+        return userService.findCurrentUser();
+    }
+
     @PostMapping("/join")
     public UserResponseDto signup(@RequestBody @Valid UserJoinRequestDto request) throws Exception {
         return userService.signup(request);
