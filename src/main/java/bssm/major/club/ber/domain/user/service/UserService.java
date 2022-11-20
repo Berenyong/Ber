@@ -93,7 +93,7 @@ public class UserService {
 
     @Transactional
     public String updatePassword(UserPasswordRequestDto request) {
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findByEmail(SecurityUtil.getCurrentUser().getUser().getEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (!Objects.equals(request.getPassword(), request.getCheckPassword())) {
@@ -134,5 +134,6 @@ public class UserService {
 
         FileResponseDto fileResponseDto = s3Uploader.saveFile(multipartFile);
         user.updateUserProfileImage(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
+        userRepository.save(user);
     }
 }
