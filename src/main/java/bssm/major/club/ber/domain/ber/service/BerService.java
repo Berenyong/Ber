@@ -161,8 +161,6 @@ public class BerService {
     }
 
     public CurrentStatusBerResponseDto currentStatusBer(String Ber_NO) {
-        System.out.println("Ber_NO = " + Ber_NO);
-
         List<Ber> current = berRepository.findAll().stream()
                 .filter(b -> b.getBerNo().equals(Ber_NO))
                 .filter(b -> b.getStatus().name().equals("APPROVAL"))
@@ -174,7 +172,7 @@ public class BerService {
                 .count();
 
         return new CurrentStatusBerResponseDto(
-                current.get(0).getBerNo(),
+                Ber_NO,
                 current.size(),
                 waiting
         );

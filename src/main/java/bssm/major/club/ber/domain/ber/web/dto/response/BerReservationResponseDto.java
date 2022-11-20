@@ -22,32 +22,14 @@ public class BerReservationResponseDto {
 
     public BerReservationResponseDto(Ber ber) {
         this.reservationId = ber.getId();
-        System.out.println("실행됨1");
-
         this.userId = ber.getUser().getId();
-        System.out.println("실행됨2");
-
         this.berNo = ber.getBerNo();
-        System.out.println("실행됨3");
-
         this.title = ber.getTitle();
-        System.out.println("실행됨4");
-
         this.content = ber.getContent();
-        System.out.println("실행됨5");
-
         this.gender = ber.getUser().getGender();
-        System.out.println("실행됨6");
-
         this.student = ber.getUser().getName();
-        System.out.println("실행됨7");
-
         this.classNumber = ber.getUser().getClassNumber();
-        System.out.println("실행됨8");
-
         this.disciplinePeriod = ber.getUser().getDisciplinePeriod();
-        System.out.println("실행됨9");
-
     }
 
 }

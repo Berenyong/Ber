@@ -22,9 +22,9 @@ public class BerApiController {
         return berService.createReservation(request);
     }
 
-    @GetMapping("/current/{num}")
-    public CurrentStatusBerResponseDto CurrentStatusBer(@PathVariable String num) {
-        return berService.currentStatusBer(num);
+    @GetMapping
+    public CurrentStatusBerResponseDto currentStatusBer(@RequestParam("berNo") String berNum) {
+        return berService.currentStatusBer(berNum);
     }
 
     @GetMapping("/reservation")
