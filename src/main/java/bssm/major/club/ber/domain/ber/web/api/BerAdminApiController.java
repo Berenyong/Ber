@@ -36,9 +36,9 @@ public class BerAdminApiController {
         return berService.updateAnswer(id, request.getAnswer());
     }
 
-    @PutMapping("/warning/{id}")
-    public BerWarningResponseDto warning(@PathVariable Long id) {
-        return berService.addWarning(id);
+    @PutMapping("/warning/{userId}")
+    public BerWarningResponseDto warning(@PathVariable Long userId) {
+        return berService.addWarning(userId);
     }
 
 }
