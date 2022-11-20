@@ -66,8 +66,9 @@ public class BerService {
         return new BerReservationResponseDto(ber);
     }
 
-    public List<BerReservationResponseDto> inquiry() {
+    public List<BerReservationResponseDto> inquery() {
         return berRepository.findAll().stream()
+                .filter(b -> b.getStatus().name().equals("WAITING"))
                 .map(BerReservationResponseDto::new)
                 .collect(Collectors.toList());
     }
@@ -102,7 +103,7 @@ public class BerService {
         User user = userFacade.getCurrentUser();
 
         return berRepository.findAll().stream()
-                .filter(b -> b.getUser().equals(user))
+                .filter(b -> b.getUser().getId().equals(user.getId()))
                 .map(BerReservationResponseDto::new)
                 .collect(Collectors.toList());
     }
@@ -111,7 +112,7 @@ public class BerService {
         User user = userFacade.getCurrentUser();
 
         return berRepository.findAll().stream()
-                .filter(b -> b.getUser().equals(user))
+                .filter(b -> b.getUser().getId().equals(user.getId()))
                 .map(BerConfirmReservationResponseDto::new)
                 .collect(Collectors.toList());
     }

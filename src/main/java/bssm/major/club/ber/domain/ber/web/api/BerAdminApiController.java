@@ -8,7 +8,6 @@ import bssm.major.club.ber.domain.ber.web.dto.response.BerReservationResponseDto
 import bssm.major.club.ber.domain.ber.web.dto.response.BerWarningResponseDto;
 import bssm.major.club.ber.global.generic.Result;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,26 +21,22 @@ public class BerAdminApiController {
     private final BerService berService;
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public Result inQuery() {
-        List<BerReservationResponseDto> inquiry = berService.inquiry();
-        return new Result(inquiry.size(), inquiry);
+    public Result<List<BerReservationResponseDto>> inQuery() {
+        List<BerReservationResponseDto> inquiry = berService.inquery();
+        return new Result<>(inquiry.size(), inquiry);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public BerConfirmResponseDto confirm(@PathVariable Long id, @RequestBody @Valid BerConfirmRequestDto request) {
         return berService.confirm(id, request);
     }
 
     @PutMapping("/answer/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public BerConfirmResponseDto updateAnswer(@PathVariable Long id, @RequestBody BerAnswerRequestDto request) {
         return berService.updateAnswer(id, request.getAnswer());
     }
 
     @PutMapping("/warning/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public BerWarningResponseDto warning(@PathVariable Long id) {
         return berService.addWarning(id);
     }
