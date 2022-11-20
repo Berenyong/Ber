@@ -18,6 +18,8 @@ public class Ber extends BaseTimeEntity {
     private Long id;
 
     private String berNo;
+
+    @Setter
     private int max;
     private int current = 0;
 
@@ -70,10 +72,6 @@ public class Ber extends BaseTimeEntity {
 
     public void addStatusRefusal() {
         this.status = Status.REFUSAL;
-    }
-
-    public void updateMax(int max) {
-        this.max= max;
     }
 
     public void increaseCurrent() {

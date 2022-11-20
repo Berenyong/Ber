@@ -30,39 +30,39 @@ public class BerService {
     @Transactional
     public BerReservationResponseDto createReservation(BerReservationRequestDto request) {
         User user = userFacade.getCurrentUser();
-        Ber ber = berRepository.save(request.toEntity());
+        Ber ber = request.toEntity();
         ber.setUser(user);
         ber.addStatusWaiting();
-        System.out.println("1");
 
         switch (request.getBerNo()) {
-            case "Ber_NO1":
-            case "Ber_NO2":
-                ber.updateMax(3);
+            case "1":
+            case "2":
+                ber.setMax(3);
                 break;
-            case "Ber_NO3":
-                ber.updateMax(5);
+            case "3":
+                ber.setMax(5);
                 break;
-            case "Ber_NO4":
-            case "Ber_NO6":
-            case "Ber_NO5":
-            case "Ber_NO9":
-                ber.updateMax(6);
+            case "4":
+            case "6":
+            case "5":
+            case "9":
+                ber.setMax(6);
                 break;
-            case "Ber_NO7":
-                ber.updateMax(7);
+            case "7":
+                ber.setMax(7);
                 break;
-            case "Ber_NO8":
-                ber.updateMax(8);
+            case "8":
+                ber.setMax(8);
                 break;
         }
-        System.out.println("2");
 
         if (user.getDisciplinePeriod() != null && LocalDate.now().isBefore(user.getDisciplinePeriod())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_BER);
         } else {
             user.initDisciplinePeriod();
         }
+
+        berRepository.save(ber);
         return new BerReservationResponseDto(ber);
     }
 
