@@ -30,10 +30,10 @@ public class BerService {
     @Transactional
     public BerReservationResponseDto createReservation(BerReservationRequestDto request) {
         User user = userFacade.getCurrentUser();
-
         Ber ber = berRepository.save(request.toEntity());
-        ber.confirmUser(user);
+        ber.setUser(user);
         ber.addStatusWaiting();
+        System.out.println("1");
 
         switch (request.getBerNo()) {
             case "Ber_NO1":
@@ -56,13 +56,13 @@ public class BerService {
                 ber.updateMax(8);
                 break;
         }
+        System.out.println("2");
 
         if (user.getDisciplinePeriod() != null && LocalDate.now().isBefore(user.getDisciplinePeriod())) {
             throw new CustomException(ErrorCode.DONT_ACCESS_BER);
         } else {
             user.initDisciplinePeriod();
         }
-
         return new BerReservationResponseDto(ber);
     }
 

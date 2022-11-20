@@ -1,13 +1,9 @@
 package bssm.major.club.ber.domain.ber.domain;
 
-import bssm.major.club.ber.domain.ber.domain.type.BerNo;
 import bssm.major.club.ber.domain.ber.domain.type.Status;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.global.entity.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,7 +11,6 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "BER")
 @Entity
 public class Ber extends BaseTimeEntity {
 
@@ -35,6 +30,7 @@ public class Ber extends BaseTimeEntity {
     private String answer;
 
     @ManyToOne(fetch = LAZY)
+    @Setter
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -64,12 +60,6 @@ public class Ber extends BaseTimeEntity {
     public void updateAnswer(String answer) {
         this.answer = answer;
     }
-
-    public void confirmUser(User user) {
-        this.user = user;
-        user.addBer(this);
-    }
-
     public void addStatusWaiting() {
         this.status = Status.WAITING;
     }
@@ -89,4 +79,5 @@ public class Ber extends BaseTimeEntity {
     public void increaseCurrent() {
         this.current++;
     }
+
 }

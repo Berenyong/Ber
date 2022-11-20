@@ -70,11 +70,6 @@ public class ManagerPost extends BasePostEntity {
         this.view += 1;
     }
 
-    public void confirmWriter(User writer) {
-        this.writer = writer;
-        writer.addManagerPost(this);
-    }
-
     public void confirmComment(ManagerPostComment comment) {
         this.managerPostComment.add(comment);
     }

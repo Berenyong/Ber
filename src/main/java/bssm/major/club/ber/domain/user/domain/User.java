@@ -84,19 +84,19 @@ public class User extends BaseTimeEntity {
     }
 
     @OneToMany(mappedBy = "user", cascade = ALL)
-    private final List<Likes> likes = new ArrayList<>();
+    private List<Likes> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = ALL)
-    private final List<ManagerPost> managerPost = new ArrayList<>();
+    private List<ManagerPost> managerPost = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = ALL)
-    private final List<ManagerPostComment> managerPostComments = new ArrayList<>();
+    private List<ManagerPostComment> managerPostComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = ALL)
-    private final List<ManagerPostReComment> managerPostReComments = new ArrayList<>();
+    private List<ManagerPostReComment> managerPostReComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = ALL)
-    private final List<Ber> ber = new ArrayList<>();
+    private List<Ber> ber = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<UserCategory> categories = new ArrayList<>();
@@ -183,10 +183,6 @@ public class User extends BaseTimeEntity {
     }
 
     //== 연관관계 편의 메소드==/
-    public void addManagerPost(ManagerPost managerPost) {
-        this.getManagerPost().add(managerPost);
-    }
-
     public void addComment(ManagerPostComment comment) {
         this.getManagerPostComments().add(comment);
     }
@@ -196,12 +192,7 @@ public class User extends BaseTimeEntity {
     }
 
     public void addCategories(UserCategory category) {
-        this.categories.add(category);
-    }
-
-    //== 베르실 예약 ==/
-    public void addBer(Ber ber) {
-        this.ber.add(ber);
+        this.getCategories().add(category);
     }
     public void addWarning() {
         this.warning ++;
