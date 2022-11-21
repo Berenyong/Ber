@@ -136,4 +136,8 @@ public class UserService {
         user.updateUserProfileImage(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
         userRepository.save(user);
     }
+
+    public UserResponseDto findCurrentUser() {
+        return new UserResponseDto(userFacade.getCurrentUser());
+    }
 }
