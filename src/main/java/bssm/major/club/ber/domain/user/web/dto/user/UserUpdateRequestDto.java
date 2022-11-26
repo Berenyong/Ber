@@ -1,6 +1,6 @@
 package bssm.major.club.ber.domain.user.web.dto.user;
 
-import bssm.major.club.ber.domain.category.user.domain.UserCategory;
+import bssm.major.club.ber.domain.ber.category.user.domain.UserCategory;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package bssm.major.club.ber.domain.user.service;
 
-import bssm.major.club.ber.domain.category.user.service.UserCategoryService;
+import bssm.major.club.ber.domain.ber.category.user.service.UserCategoryService;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.domain.user.facade.UserFacade;

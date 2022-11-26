@@ -2,11 +2,9 @@ package bssm.major.club.ber.domain.user.domain;
 
 import bssm.major.club.ber.domain.ber.domain.Ber;
 import bssm.major.club.ber.domain.ber.domain.type.Gender;
-import bssm.major.club.ber.domain.category.post.domain.PostCategory;
-import bssm.major.club.ber.domain.category.user.domain.UserCategory;
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPostComment;
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPostReComment;
+import bssm.major.club.ber.domain.ber.category.post.domain.PostCategory;
+import bssm.major.club.ber.domain.ber.category.user.domain.UserCategory;
+import bssm.major.club.ber.domain.post.domain.Post;
 import bssm.major.club.ber.domain.user.domain.type.Role;
 import bssm.major.club.ber.domain.likes.domain.Likes;
 import bssm.major.club.ber.global.exception.CustomException;
@@ -87,13 +85,14 @@ public class User extends BaseTimeEntity {
     private List<Likes> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = ALL)
-    private List<ManagerPost> managerPost = new ArrayList<>();
+    private List<Post> post = new ArrayList<>();
 
-    @OneToMany(mappedBy = "writer", cascade = ALL)
-    private List<ManagerPostComment> managerPostComments = new ArrayList<>();
+    /***
+     * 나중에 댓글 추가하면 매핑
+     */
+//    @OneToMany(mappedBy = "writer", cascade = ALL)
+//    private List<ManagerPostComment> managerPostComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "writer", cascade = ALL)
-    private List<ManagerPostReComment> managerPostReComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Ber> ber = new ArrayList<>();
@@ -183,13 +182,13 @@ public class User extends BaseTimeEntity {
     }
 
     //== 연관관계 편의 메소드==/
-    public void addComment(ManagerPostComment comment) {
-        this.getManagerPostComments().add(comment);
-    }
 
-    public void addReComment(ManagerPostReComment reComment) {
-        this.getManagerPostReComments().add(reComment);
-    }
+    /**
+     * 나중에 comment추가 하면
+     */
+    // public void addReComment(ManagerPostReComment reComment) {
+    //   this.getManagerPostReComments().add(reComment);
+    // }
 
     public void addCategories(UserCategory category) {
         this.getCategories().add(category);

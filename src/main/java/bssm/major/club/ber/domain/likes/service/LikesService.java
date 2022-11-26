@@ -2,8 +2,8 @@ package bssm.major.club.ber.domain.likes.service;
 
 import bssm.major.club.ber.domain.likes.domain.Likes;
 import bssm.major.club.ber.domain.likes.repository.LikesRepository;
-import bssm.major.club.ber.domain.post.manager.domain.ManagerPost;
-import bssm.major.club.ber.domain.post.manager.repository.ManagerPostRepository;
+import bssm.major.club.ber.domain.post.domain.Post;
+import bssm.major.club.ber.domain.post.domain.repository.PostRepository;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.domain.user.facade.UserFacade;
@@ -26,13 +26,13 @@ public class LikesService {
     private final LikesRepository likesRepository;
     private final UserRepository userRepository;
     private final UserFacade userFacade;
-    private final ManagerPostRepository managerPostRepository;
+    private final PostRepository postRepository;
 
     @Transactional
     public String mlikes(long postId) {
         User user = userFacade.getCurrentUser();
 
-        ManagerPost managerPost = managerPostRepository.findById(postId)
+        Post managerPost = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
         List<Likes> collect = managerPost.getLikes().stream()

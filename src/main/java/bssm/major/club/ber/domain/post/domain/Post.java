@@ -1,7 +1,9 @@
 package bssm.major.club.ber.domain.post.domain;
 
-import bssm.major.club.ber.domain.category.post.domain.PostCategory;
+import bssm.major.club.ber.domain.ber.category.post.domain.PostCategory;
 import bssm.major.club.ber.domain.likes.domain.Likes;
+import bssm.major.club.ber.domain.post.domain.type.PostKind;
+import bssm.major.club.ber.domain.post.web.dto.request.PostRequestDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.global.entity.BaseTimeEntity;
 import lombok.*;
@@ -40,7 +42,7 @@ public class Post extends BaseTimeEntity {
     // cascade = OneToMany -> ManyToOne
     // Ex) ManyToOne 에 cascade 적용시
     // 게시글 삭제시 유저 삭제
-    @OneToMany(mappedBy = "managerPost", cascade = ALL)
+    @OneToMany(mappedBy = "post", cascade = ALL)
     private List<Likes> likes = new ArrayList<>();
 
     /***
@@ -49,8 +51,12 @@ public class Post extends BaseTimeEntity {
     // @OneToMany(mappedBy = "managerPost", cascade = ALL)
     // private List<PostComment> managerPostComment = new ArrayList<>();
 
-    @OneToMany(mappedBy = "managerPost", cascade = ALL)
+    @OneToMany(mappedBy = "post", cascade = ALL)
     private List<PostCategory> postCategories = new ArrayList<>();
+
+    public void addCategory(PostCategory postCategory) {
+        postCategories.add(postCategory);
+    }
 
     /**
      * 나중에 이미지 추가
@@ -59,5 +65,23 @@ public class Post extends BaseTimeEntity {
     // private List<PostImg> postImgs = new ArrayList<>();
 
 
+    @Builder
+    public Post(String title, PostKind postKind, String content, List<PostCategory> postCategories, User writer) {
+        this.title = title;
+        this.postKind = postKind;
+        this.content = content;
+        this.postCategories = postCategories;
+        this.writer = writer;
+    }
 
+    public void confirmWriter(User writer){
+        this.writer = writer;
+    }
+
+    public void update(PostRequestDto request){
+        this.title = request.getTitle();
+        this.postKind = request.getPostKind();
+        this.content = request.getContent();
+        this.postCategories = request.getPostCategories();
+    }
 }

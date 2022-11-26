@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 public interface LikesRepository extends JpaRepository<Likes, Long> {
 
     @Modifying
-    @Query(value = "INSERT INTO likes(manager_post_id, user_id) VALUES (:postId, :userId)", nativeQuery = true)
+    @Query(value = "INSERT INTO likes(post_id, user_id) VALUES (:postId, :userId)", nativeQuery = true)
     void mlikes(@Param("postId") long postId, @Param("userId") long userId);
 
     @Modifying
-    @Query(value = "DELETE FROM likes WHERE manager_post_id = :postId AND user_id = :userId", nativeQuery = true)
+    @Query(value = "DELETE FROM likes WHERE post_id = :postId AND user_id = :userId", nativeQuery = true)
     void munLikes(@Param("postId") long postId, @Param("userId") long userId);
 }

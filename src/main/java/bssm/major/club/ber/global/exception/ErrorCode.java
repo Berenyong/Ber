@@ -31,7 +31,10 @@ public enum ErrorCode {
     INVALID_TOKEN(401, "무효한 토큰입니다."),
     NOT_MATCH_TOKEN(402, "토큰이 일치하지 않습니다."),
     RETRY_LOGIN(402, "로그인을 다시 해주세요."),
-    OVER_FLOW_BER(500, "인원이 가득 찬 베르실입니다.");
+    OVER_FLOW_BER(500, "인원이 가득 찬 베르실입니다."),
+
+    YOUR_NOT_MANAGER(403, "메니저만 이용할 수 있습니다"),
+    POSTKIND_NOT_EXIST(401, "요청하신 게시글 종류는 없습니다");
 
     private final int status;
     private final String message;
