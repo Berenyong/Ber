@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 @AllArgsConstructor
 public enum PostKind {
-    FREE("자유게시판"),
-    MANAGER("매니저게시판"),
-    MAJOR("전고게시판"),
-    PROJECT("프로젝트게시판");
+    FREE("free"),
+    MANAGER("manage"),
+    MAJOR("major"),
+    PROJECT("project");
 
     private String title;
 
