@@ -66,12 +66,11 @@ public class Post extends BaseTimeEntity {
 
 
     @Builder
-    public Post(String title, PostKind postKind, String content, List<PostCategory> postCategories, User writer) {
+    public Post(String title, PostKind postKind, String content, List<PostCategory> postCategories) {
         this.title = title;
         this.postKind = postKind;
         this.content = content;
         this.postCategories = postCategories;
-        this.writer = writer;
     }
 
     public void confirmWriter(User writer){

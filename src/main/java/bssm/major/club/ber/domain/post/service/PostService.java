@@ -8,11 +8,13 @@ import bssm.major.club.ber.domain.post.web.dto.response.PostResponseDto;
 import bssm.major.club.ber.domain.user.domain.User;
 import bssm.major.club.ber.domain.user.domain.repository.UserRepository;
 import bssm.major.club.ber.domain.user.domain.type.Role;
+import bssm.major.club.ber.domain.user.facade.UserFacade;
 import bssm.major.club.ber.global.exception.CustomException;
 import bssm.major.club.ber.global.exception.ErrorCode;
 import bssm.major.club.ber.global.exception.PostException;
 import bssm.major.club.ber.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,17 +28,18 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final UserFacade userFacade;
 
     @Transactional
-    public Long CreatePost(PostRequestDto request){
-        User users = userRepository.findByEmail(SecurityUtil.getCurrentUser().getUsername())
+    public Long createPost(PostRequestDto request){
+        User user = userRepository.findByEmail(userFacade.getCurrentUser().getEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_LOGIN));
 
-        if(request.getPostKind() == PostKind.MANAGER && !users.getRole().equals(Role.ROLE_MANAGER))
+        if(request.getPostKind() == PostKind.MANAGER && !user.getRole().equals(Role.ROLE_MANAGER))
             throw new CustomException(ErrorCode.YOUR_NOT_MANAGER);
 
         Post post = postRepository.save(request.toEntity());
-        post.confirmWriter(users);
+        post.confirmWriter(user);
 
         return post.getId();
     }
@@ -75,11 +78,12 @@ public class PostService {
         return postDto;
     }
 
+    @Transactional
     public Long update(Long id,PostRequestDto request){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostException(ErrorCode.POSTS_NOT_FOUND));
 
-        if(!post.getWriter().equals(SecurityUtil.getCurrentUser().getUsername())){
+        if(!post.getWriter().equals(userFacade.getCurrentUser())){
             throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
         }
 
@@ -88,11 +92,12 @@ public class PostService {
         return post.getId();
     }
 
+    @Transactional
     public Long delete(Long id){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostException(ErrorCode.POSTS_NOT_FOUND));
 
-        if(!post.getWriter().equals(SecurityUtil.getCurrentUser())){
+        if(!post.getWriter().equals(userFacade.getCurrentUser())){
             throw new CustomException(ErrorCode.DONT_ACCESS_OTHER);
         }
 
